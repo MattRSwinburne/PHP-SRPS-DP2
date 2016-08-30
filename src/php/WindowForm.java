@@ -92,7 +92,6 @@ public class WindowForm {
 					}
 					if (!inputError)
 					{
-						inputError = false;
 						JOptionPane.showMessageDialog(null, "item successfully added");
 						itemTextField.setText("");
 						quantityTextField.setText("");
