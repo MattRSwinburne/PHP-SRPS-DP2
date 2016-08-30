@@ -130,6 +130,7 @@ public class AddSales {
 		Button button_2 = new Button("EXIT");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
 			}
 		});
 		button_2.setBounds(355, 229, 69, 22);
