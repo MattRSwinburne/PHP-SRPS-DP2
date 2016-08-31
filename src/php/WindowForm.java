@@ -52,15 +52,6 @@ public class WindowForm {
 		clearButton.setBounds(210, 158, 69, 22);
 		frame.getContentPane().add(clearButton);
 		
-		// Exit button
-		
-		exitButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		exitButton.setBounds(300, 200, 69, 22);
-		frame.getContentPane().add(exitButton);
 		*/
 		frame.pack();
 		frame.setLocationRelativeTo(null); // must go after .pack() to work
