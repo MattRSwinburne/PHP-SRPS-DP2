@@ -1,11 +1,19 @@
 package php;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
+
 public class AddSalesRecordGUI {
+	TextField itemTextField = new TextField();
+	TextField quantityTextField = new TextField();
+	TextField priceTextField = new TextField();
+
+	Button addButton = new Button("ADD");
+	Button clearButton = new Button("CLEAR");
 	
-	public static void AddSalesContent(JPanel panel) {
+	public void AddSalesContent(JPanel panel) {
 		GroupLayout layout = new GroupLayout(panel);
 		panel.setLayout(layout);
 		
@@ -33,19 +41,16 @@ public class AddSalesRecordGUI {
 		Dimension textFieldPrefSize = new Dimension(180, 22);
 		Dimension textFieldMaxSize = new Dimension(300, 22);
 		
-		TextField itemTextField = new TextField();
 		itemTextField.setName("itemTextField");
 		itemTextField.setMinimumSize(textFieldMinSize);
 		itemTextField.setPreferredSize(textFieldPrefSize);
 		itemTextField.setMaximumSize(textFieldMaxSize);
 		
-		TextField quantityTextField = new TextField();
 		quantityTextField.setName("quantityTextField");
 		quantityTextField.setMinimumSize(textFieldMinSize);
 		quantityTextField.setPreferredSize(textFieldPrefSize);
 		quantityTextField.setMaximumSize(textFieldMaxSize);
 		
-		TextField priceTextField = new TextField();
 		priceTextField.setName("priceTextField");
 		priceTextField.setMinimumSize(textFieldMinSize);
 		priceTextField.setPreferredSize(textFieldPrefSize);
@@ -53,13 +58,13 @@ public class AddSalesRecordGUI {
 		
 		Dimension buttonSize = new Dimension(50, 30);
 		
-		Button addButton = new Button("ADD");
 		addButton.setName("addButton");
 		addButton.setMaximumSize(buttonSize);
-		
-		Button clearButton = new Button("CLEAR");
+		AddButtonFunction();
+
 		clearButton.setName("clearButton");
 		clearButton.setMaximumSize(buttonSize);
+		ClearButtonFunctionality();
 		
 		layout.setHorizontalGroup(
 			layout.createSequentialGroup()
@@ -90,8 +95,62 @@ public class AddSalesRecordGUI {
 					.addComponent(addButton)
 					.addComponent(clearButton))
 		);
-		
-		
-		//AddSalesRecordFunctionality.AddFunctionality(panel);
+	}
+	
+	private void AddButtonFunction() {
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String vItem;
+				int vQuantity;
+				float vPrice;
+			
+				if (itemTextField.getText().equals("") ||
+					quantityTextField.getText().equals("") ||
+					priceTextField.getText().equals(""))
+				{
+				JOptionPane.showMessageDialog(null, "please do not leave any fields blank!");
+				}
+				else
+				{
+					// validate input
+					Boolean inputError = false;
+					vItem = itemTextField.getText();
+					try {
+						vQuantity = Integer.parseInt(quantityTextField.getText());
+					} catch (NumberFormatException e) {
+						inputError = true;
+						JOptionPane.showMessageDialog(null, "Please only enter whole numbers in the quantity box!");
+					}
+					try {
+						vPrice = Float.valueOf(priceTextField.getText());
+					} catch (NumberFormatException e) {
+						inputError = true;
+						JOptionPane.showMessageDialog(null, "Please only enter decimal numbers in the price box!");
+					}
+					if (!inputError)
+					{
+						JOptionPane.showMessageDialog(null, "item successfully added");
+						itemTextField.setText("");
+						quantityTextField.setText("");
+						priceTextField.setText("");
+					}
+				}					
+			}
+		});
+	}
+	
+	private void ClearButtonFunctionality() {
+		clearButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// refresh the text fields
+				itemTextField.getText();
+				quantityTextField.getText();
+				priceTextField.getText();
+				// clear them
+				itemTextField.setText("");
+				quantityTextField.setText("");
+				priceTextField.setText("");	
+			}
+		});
 	}
 }
