@@ -28,7 +28,7 @@ public class WindowForm {
 	{
 		frame = new JFrame("People Health Pharmacy");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.setPreferredSize(new Dimension(800,600));
+		//frame.setPreferredSize(new Dimension(400,300));
 		GUIwrapper gui = new GUIwrapper();
 		frame.add(gui.TabbedPane());
 
