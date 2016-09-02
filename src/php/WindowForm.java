@@ -34,5 +34,8 @@ public class WindowForm {
 
 		frame.pack();
 		frame.setLocationRelativeTo(null); // must go after .pack() to work
+		
+		DatabaseIO db = new DatabaseIO();
+		db.connect();
 	}
 }
