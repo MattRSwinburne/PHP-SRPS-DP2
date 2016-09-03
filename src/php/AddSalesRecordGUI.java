@@ -3,12 +3,15 @@ package php;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import com.toedter.calendar.JDateChooser;
 
 
 public class AddSalesRecordGUI {
 	TextField itemTextField = new TextField();
 	TextField quantityTextField = new TextField();
 	TextField priceTextField = new TextField();
+	//date chooser
+	JDateChooser dateChooser = new JDateChooser();
 
 	Button addButton = new Button("ADD");
 	Button clearButton = new Button("CLEAR");
@@ -20,7 +23,7 @@ public class AddSalesRecordGUI {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		
-		Dimension labelSize = new Dimension(50, 22);
+		Dimension labelSize = new Dimension(62, 22);
 		
 		Label itemLabel = new Label("Item");
 		itemLabel.setAlignment(Label.RIGHT);
@@ -36,6 +39,12 @@ public class AddSalesRecordGUI {
 		priceLabel.setAlignment(Label.RIGHT);
 		priceLabel.setName("priceLabel");
 		priceLabel.setMaximumSize(labelSize);
+		
+		//label for date chooser
+		Label dateLabel = new Label("Date");
+		dateLabel.setAlignment(Label.RIGHT);
+		dateLabel.setName("dateLabel");
+		dateLabel.setMaximumSize(labelSize);
 		
 		Dimension textFieldMinSize = new Dimension(100, 22);
 		Dimension textFieldPrefSize = new Dimension(180, 22);
@@ -56,6 +65,12 @@ public class AddSalesRecordGUI {
 		priceTextField.setPreferredSize(textFieldPrefSize);
 		priceTextField.setMaximumSize(textFieldMaxSize);
 		
+		//date chooser
+		dateChooser.setName("dateChooser");
+		dateChooser.setMinimumSize(textFieldMinSize);
+		dateChooser.setPreferredSize(textFieldPrefSize);
+		dateChooser.setMaximumSize(textFieldMaxSize);
+		
 		Dimension buttonSize = new Dimension(50, 30);
 		
 		addButton.setName("addButton");
@@ -71,11 +86,13 @@ public class AddSalesRecordGUI {
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 					.addComponent(itemLabel)
 					.addComponent(quantityLabel)
-					.addComponent(priceLabel))
+					.addComponent(priceLabel)
+					.addComponent(dateLabel))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 					.addComponent(itemTextField)
 					.addComponent(quantityTextField)
 					.addComponent(priceTextField)
+					.addComponent(dateChooser)
 					.addGroup(layout.createSequentialGroup()
 						.addComponent(addButton)
 						.addComponent(clearButton)))
@@ -91,6 +108,9 @@ public class AddSalesRecordGUI {
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 					.addComponent(priceLabel)
 					.addComponent(priceTextField))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addComponent(dateLabel)
+					.addComponent(dateChooser))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 					.addComponent(addButton)
 					.addComponent(clearButton))
