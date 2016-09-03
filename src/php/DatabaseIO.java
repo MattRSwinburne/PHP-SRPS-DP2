@@ -76,6 +76,8 @@ public class DatabaseIO {
 	}
 	
 	//execute the stored procedure that adds a new sale record
+	//when calling this method, make sure you send a java.sql.date into saleDate. This should get you there if you're using java.util.date:
+	//https://stackoverflow.com/questions/25351760/jcalendar-to-sql-date-not-working
 	public void addSale(int productID, Date saleDate, int qtySold){
 		
 		//get the connection
