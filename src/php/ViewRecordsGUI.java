@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class AddSalesRecordGUI {
+public class ViewRecordsGUI {
 	TextField itemTextField = new TextField();
 	TextField quantityTextField = new TextField();
 	TextField priceTextField = new TextField();
@@ -13,7 +13,7 @@ public class AddSalesRecordGUI {
 	Button addButton = new Button("ADD");
 	Button clearButton = new Button("CLEAR");
 	
-	public void AddSalesContent(JPanel panel) {
+	public void ViewRecordsContent(JPanel panel) {
 		GroupLayout layout = new GroupLayout(panel);
 		panel.setLayout(layout);
 		
