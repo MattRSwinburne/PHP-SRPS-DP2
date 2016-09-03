@@ -6,17 +6,38 @@ import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 
 
-public class AddSalesRecordGUI {
-	TextField itemTextField = new TextField();
-	TextField quantityTextField = new TextField();
-	TextField priceTextField = new TextField();
-	//date chooser
-	JDateChooser dateChooser = new JDateChooser();
-
-	Button addButton = new Button("ADD");
-	Button clearButton = new Button("CLEAR");
+public class AddSalesRecordGUI extends SideBarWrapper {
+	TextField itemTextField;
+	TextField quantityTextField;
+	TextField priceTextField;
 	
-	public void AddSalesContent(JPanel panel) {
+	JDateChooser dateChooser;
+	
+	Button addButton;
+	Button clearButton;
+	
+	protected void InitializeLocalVars()
+	{
+		itemTextField = new TextField();
+		quantityTextField = new TextField();
+		priceTextField = new TextField();
+		//date chooser
+		dateChooser = new JDateChooser();
+
+		addButton = new Button("ADD");
+		clearButton = new Button("CLEAR");
+	}
+	
+	protected void GenerateButtons()
+	{
+		sideButtons.addElement(new Button("Add a Sales Record"));
+		sideButtons.addElement(new Button("Add a Product"));
+		sideButtons.addElement(new Button("Modify Product"));
+		sideButtons.addElement(new Button("Modify Stock Levels"));
+	}
+	
+	protected JPanel Content() {
+		JPanel panel = new JPanel();
 		GroupLayout layout = new GroupLayout(panel);
 		panel.setLayout(layout);
 		
@@ -27,57 +48,57 @@ public class AddSalesRecordGUI {
 		
 		Label itemLabel = new Label("Item");
 		itemLabel.setAlignment(Label.RIGHT);
-		itemLabel.setName("itemLabel");
+		//itemLabel.setName("itemLabel");
 		itemLabel.setMaximumSize(labelSize);
 		
 		Label quantityLabel = new Label("Quantity");
 		quantityLabel.setAlignment(Label.RIGHT);
-		quantityLabel.setName("quantityLabel");
+		//quantityLabel.setName("quantityLabel");
 		quantityLabel.setMaximumSize(labelSize);
 		
 		Label priceLabel = new Label("Price");
 		priceLabel.setAlignment(Label.RIGHT);
-		priceLabel.setName("priceLabel");
+		//priceLabel.setName("priceLabel");
 		priceLabel.setMaximumSize(labelSize);
 		
 		//label for date chooser
 		Label dateLabel = new Label("Date");
 		dateLabel.setAlignment(Label.RIGHT);
-		dateLabel.setName("dateLabel");
+		//dateLabel.setName("dateLabel");
 		dateLabel.setMaximumSize(labelSize);
 		
 		Dimension textFieldMinSize = new Dimension(100, 22);
 		Dimension textFieldPrefSize = new Dimension(180, 22);
 		Dimension textFieldMaxSize = new Dimension(300, 22);
 		
-		itemTextField.setName("itemTextField");
+		//itemTextField.setName("itemTextField");
 		itemTextField.setMinimumSize(textFieldMinSize);
 		itemTextField.setPreferredSize(textFieldPrefSize);
 		itemTextField.setMaximumSize(textFieldMaxSize);
 		
-		quantityTextField.setName("quantityTextField");
+		//quantityTextField.setName("quantityTextField");
 		quantityTextField.setMinimumSize(textFieldMinSize);
 		quantityTextField.setPreferredSize(textFieldPrefSize);
 		quantityTextField.setMaximumSize(textFieldMaxSize);
 		
-		priceTextField.setName("priceTextField");
+		//priceTextField.setName("priceTextField");
 		priceTextField.setMinimumSize(textFieldMinSize);
 		priceTextField.setPreferredSize(textFieldPrefSize);
 		priceTextField.setMaximumSize(textFieldMaxSize);
 		
 		//date chooser
-		dateChooser.setName("dateChooser");
+		//dateChooser.setName("dateChooser");
 		dateChooser.setMinimumSize(textFieldMinSize);
 		dateChooser.setPreferredSize(textFieldPrefSize);
 		dateChooser.setMaximumSize(textFieldMaxSize);
 		
 		Dimension buttonSize = new Dimension(50, 30);
 		
-		addButton.setName("addButton");
+		//addButton.setName("addButton");
 		addButton.setMaximumSize(buttonSize);
 		AddButtonFunction();
 
-		clearButton.setName("clearButton");
+		//clearButton.setName("clearButton");
 		clearButton.setMaximumSize(buttonSize);
 		ClearButtonFunctionality();
 		
@@ -115,6 +136,8 @@ public class AddSalesRecordGUI {
 					.addComponent(addButton)
 					.addComponent(clearButton))
 		);
+		
+		return panel;
 	}
 	
 	private void AddButtonFunction() {

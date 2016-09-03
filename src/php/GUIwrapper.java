@@ -11,9 +11,9 @@ public class GUIwrapper {
 		HomeGUI home = new HomeGUI();
 		home.HomeContent(homeGUI);
 		
-		JPanel addSalesGUI = new JPanel();
+		//JPanel addSalesGUI = new JPanel();
 		AddSalesRecordGUI addSales = new AddSalesRecordGUI();
-		addSales.AddSalesContent(addSalesGUI);
+		//addSales.AddSalesContent(addSalesGUI);
 		
 		JPanel viewrecordsGUI = new JPanel();
 		ViewRecordsGUI viewRecords = new ViewRecordsGUI();
@@ -24,7 +24,7 @@ public class GUIwrapper {
 		reports.ReportsContent(reportsGUI);
 		
 		tabbedPane.addTab("Home", null, homeGUI, null);
-		tabbedPane.addTab("Add Sales", null, addSalesGUI, null);
+		tabbedPane.addTab("Add Sales", null, addSales, null);
 		tabbedPane.addTab("View Sales", null, viewrecordsGUI, null);
 		tabbedPane.addTab("Reports", null, reportsGUI, null);
 
