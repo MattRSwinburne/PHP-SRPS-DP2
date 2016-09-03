@@ -27,7 +27,7 @@ public class DatabaseIO {
 	}
 	
 	//execute the stored procedure that adds a new product to the database
-	public void AddProduct(String productCategory, String productDescription, String productName, int productStock){
+	public void addProduct(String productCategory, String productDescription, String productName, int productStock){
 		
 		//get the connection
 		Connection con = connect();
@@ -73,6 +73,54 @@ public class DatabaseIO {
             }
         }
         
+	}
+	
+	//execute the stored procedure that adds a new sale record
+	public void addSale(int productID, Date saleDate, int qtySold){
+		
+		//get the connection
+		Connection con = connect();
+				
+		//prepare CallableStatement
+		CallableStatement pStmt = null;
+		
+		try {
+			//construct the statement
+			pStmt = con.prepareCall("{call SYSTEM.ADDSALE(?,?,?)}");
+			pStmt.setInt("pProductID", productID);
+			pStmt.setDate("pSaleDate", saleDate);
+			pStmt.setInt("pQtySold", qtySold);
+			
+			//execute the procedure
+			pStmt.execute();
+			
+		} catch (SQLException ex) {
+            //check for the specific exceptions we throw in the database
+			//at this stage we only have error code 20001 and 20002
+			if (ex.getErrorCode() == 20002) {
+            	System.err.println("Product stock level cannot go below 0");
+            } else {
+            	ex.printStackTrace();
+            }            
+        } finally {
+        	
+        	//make sure everything is closed
+        	if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    System.err.println("SQLException: " + e.getMessage());
+                }
+            }
+            if (pStmt != null) {
+                try {
+                	pStmt.close();
+                } catch (SQLException e) {
+                    System.err.println("SQLException: " + e.getMessage());
+                }
+            }
+        }
+		
 	}
 	
 	

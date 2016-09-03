@@ -11,6 +11,6 @@ BEGIN
     VALUES(PRODUCT_ID_SEQ.nextval, pProductCategory, pProductDescription, pProductName, pProductStock);
 
 EXCEPTION
-  WHEN dup_val_on_index THEN
-    dbms_output.put_line('This product already exists');
+  WHEN OTHERS THEN
+    RAISE_APPLICATION_ERROR(-20001, 'This product already exists');
 END;

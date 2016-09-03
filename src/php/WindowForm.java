@@ -35,7 +35,5 @@ public class WindowForm {
 		frame.pack();
 		frame.setLocationRelativeTo(null); // must go after .pack() to work
 		
-		DatabaseIO db = new DatabaseIO();
-		db.AddProduct("medicine", "pain relief", "ibuprofen", 89);
 	}
 }
