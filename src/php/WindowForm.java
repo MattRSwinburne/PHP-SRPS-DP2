@@ -36,6 +36,6 @@ public class WindowForm {
 		frame.setLocationRelativeTo(null); // must go after .pack() to work
 		
 		DatabaseIO db = new DatabaseIO();
-		db.connect();
+		db.AddProduct("medicine", "pain relief", "ibuprofen", 89);
 	}
 }
