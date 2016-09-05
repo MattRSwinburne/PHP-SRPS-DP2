@@ -2,6 +2,7 @@ package php;
 
 import java.awt.Button;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
@@ -19,9 +20,10 @@ public class AddSalesSideBar extends SideBarWrapper {
 	
 	protected JPanel Content()
 	{
+		cards = new JPanel(new CardLayout());
+		cards.setPreferredSize(new Dimension(500, 300));
 		JPanel AddSalesRecord = new AddSalesRecordGUI();
 		JPanel AddProduct = new AddProductGUI();
-		cards = new JPanel(new CardLayout());
 		cards.add(AddSalesRecord, addSalesName);
 		cards.add(AddProduct, addProductName);
 		return cards;
