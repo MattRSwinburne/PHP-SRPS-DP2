@@ -6,7 +6,7 @@ import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 
 
-public class AddSalesRecordGUI extends SideBarWrapper {
+public class AddSalesRecordGUI extends JPanel {
 	TextField itemTextField;
 	TextField quantityTextField;
 	TextField priceTextField;
@@ -16,7 +16,13 @@ public class AddSalesRecordGUI extends SideBarWrapper {
 	Button addButton;
 	Button clearButton;
 	
-	protected void InitializeLocalVars()
+	public AddSalesRecordGUI()
+	{
+		InitializeLocalVars();
+		InitializeContent();
+	}
+	
+	private void InitializeLocalVars()
 	{
 		itemTextField = new TextField();
 		quantityTextField = new TextField();
@@ -27,19 +33,11 @@ public class AddSalesRecordGUI extends SideBarWrapper {
 		addButton = new Button("ADD");
 		clearButton = new Button("CLEAR");
 	}
+
 	
-	protected void GenerateButtons()
-	{
-		sideButtons.addElement(new Button("Add a Sales Record"));
-		sideButtons.addElement(new Button("Add a Product"));
-		sideButtons.addElement(new Button("Modify Product"));
-		sideButtons.addElement(new Button("Modify Stock Levels"));
-	}
-	
-	protected JPanel Content() {
-		JPanel panel = new JPanel();
-		GroupLayout layout = new GroupLayout(panel);
-		panel.setLayout(layout);
+	private void InitializeContent() {
+		GroupLayout layout = new GroupLayout(this);
+		setLayout(layout);
 		
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
@@ -136,8 +134,6 @@ public class AddSalesRecordGUI extends SideBarWrapper {
 					.addComponent(addButton)
 					.addComponent(clearButton))
 		);
-		
-		return panel;
 	}
 	
 	private void AddButtonFunction() {

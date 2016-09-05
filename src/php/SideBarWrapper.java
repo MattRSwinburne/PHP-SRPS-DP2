@@ -1,18 +1,18 @@
 package php;
 
-import java.awt.*;
-import javax.swing.*;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.util.Vector;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 
 public class SideBarWrapper extends JPanel
 {
 	protected Vector<Button> sideButtons = new Vector<Button>();
-	protected JPanel content;
 	protected JPanel sideBar = new JPanel();
 	
 	public SideBarWrapper()
 	{
-		InitializeLocalVars();
 		Initialize();
 	}
 	
@@ -24,7 +24,6 @@ public class SideBarWrapper extends JPanel
 		
 		add(Content(), BorderLayout.CENTER);
 		
-		
 		for (Button button : sideButtons)
 		{
 			sideBar.add(button, BorderLayout.LINE_END);
@@ -32,7 +31,6 @@ public class SideBarWrapper extends JPanel
 		add(sideBar, BorderLayout.LINE_END);
 	}
 	
-	protected void InitializeLocalVars() {}
 	protected void GenerateButtons() {}
 	
 	protected JPanel Content()
