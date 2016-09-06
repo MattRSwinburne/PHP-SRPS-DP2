@@ -126,7 +126,53 @@ public class DatabaseIO {
 		}
 	}
 
+	//updates the database product record with the provided product object.
+	//be careful, this doesn't really do any validation yet
+	public static void updateProduct(Product updateProduct){
 
+		//get the connection
+		Connection con = connect();
+		Statement stmt = null;
+
+		try {				
+
+			//construct the statement
+			stmt = con.createStatement();
+			String sql = "UPDATE SYSTEM.PRODUCT " +
+					"SET \"Product_Category\"='" + updateProduct.productCategory + "'," +
+					"PRODUCT_DESCRIPTION='" + updateProduct.productDescription + "'," +
+					"PRODUCT_NAME='" + updateProduct.productName + "'," +
+					"PRODUCT_STOCK=" + updateProduct.productStock + " " +
+					"WHERE PRODUCT_ID=" + updateProduct.productID;
+			System.out.println(sql);
+			//execute the statement
+			stmt.execute(sql);
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+
+		} finally {
+
+			//make sure everything is closed
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					System.err.println("SQLException: " + e.getMessage());
+				}
+			}
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					System.err.println("SQLException: " + e.getMessage());
+				}
+			}
+		}
+
+	}
+	
+	//gets the products from the database, and populates the DatabaseIO.productList arraylist with product objects
 	public static void getProducts(){
 
 		Connection con = connect();
@@ -166,7 +212,8 @@ public class DatabaseIO {
 			}
 		}
 	}
-
+	
+	//gets the sales records from the database and populates the DatabaseIO.salesList with sale objects
 	public static void getSales(){
 
 		Connection con = connect();

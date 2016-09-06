@@ -36,6 +36,9 @@ public class WindowForm {
 		frame.add(gui.TabbedPane());
 		frame.pack();
 		frame.setLocationRelativeTo(null); // must go after .pack() to work
+		DatabaseIO.getProducts();
+		DatabaseIO.productList.get(0).setProductDescription("pretty awful to be honest");
+		DatabaseIO.updateProduct(DatabaseIO.productList.get(0));
 		
 	}
 }
