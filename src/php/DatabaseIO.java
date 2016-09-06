@@ -172,4 +172,16 @@ public static ArrayList<Product> productList = new ArrayList<Product>();
 	
 	        }
 	}
+	
+	public static ArrayList<String> getCategories() {
+		
+		ArrayList<String> categories = new ArrayList<String>();
+		for(Product p : DatabaseIO.productList){
+			if(!categories.contains(p.productCategory))
+				categories.add(p.productCategory);
+		}
+		return categories;
+		
+		
+	}
 }

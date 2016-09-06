@@ -2,6 +2,7 @@ package php;
 
 import java.awt.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -37,6 +38,7 @@ public class WindowForm {
 		frame.setLocationRelativeTo(null); // must go after .pack() to work
 		
 			DatabaseIO.getProducts();
+			ArrayList<String> categories = DatabaseIO.getCategories();
 	
 		
 		
