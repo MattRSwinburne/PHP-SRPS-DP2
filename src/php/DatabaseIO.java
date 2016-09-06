@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class DatabaseIO {
 
 	public static ArrayList<Product> productList = new ArrayList<Product>();
+	public static ArrayList<Sale> saleList = new ArrayList<Sale>();
 
 	//use this to create a connection to the database, and then return that connection so that we can use it.
 	//Will cause problems if you cannot access the database, like from inside Swinburne's Network
@@ -18,9 +19,6 @@ public class DatabaseIO {
 
 			String dbURL1 = "jdbc:oracle:thin:sys as sysdba/oracle@ec2-52-62-243-187.ap-southeast-2.compute.amazonaws.com:1521:XE";
 			dbcon = DriverManager.getConnection(dbURL1);
-			if (dbcon != null) {
-				System.out.println("Connected with connection #1");
-			}
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -125,7 +123,53 @@ public class DatabaseIO {
 		}
 	}
 
+	//updates the database product record with the provided product object.
+	//be careful, this doesn't really do any validation yet
+	public static void updateProduct(Product updateProduct){
 
+		//get the connection
+		Connection con = connect();
+		Statement stmt = null;
+
+		try {				
+
+			//construct the statement
+			stmt = con.createStatement();
+			String sql = "UPDATE SYSTEM.PRODUCT " +
+					"SET \"Product_Category\"='" + updateProduct.productCategory + "'," +
+					"PRODUCT_DESCRIPTION='" + updateProduct.productDescription + "'," +
+					"PRODUCT_NAME='" + updateProduct.productName + "'," +
+					"PRODUCT_STOCK=" + updateProduct.productStock + " " +
+					"WHERE PRODUCT_ID=" + updateProduct.productID;
+			System.out.println(sql);
+			//execute the statement
+			stmt.execute(sql);
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+
+		} finally {
+
+			//make sure everything is closed
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					System.err.println("SQLException: " + e.getMessage());
+				}
+			}
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					System.err.println("SQLException: " + e.getMessage());
+				}
+			}
+		}
+
+	}
+	
+	//gets the products from the database, and populates the DatabaseIO.productList arraylist with product objects
 	public static void getProducts(){
 
 		Connection con = connect();
@@ -165,8 +209,52 @@ public class DatabaseIO {
 			}
 		}
 	}
+	
+	//gets the sales records from the database and populates the DatabaseIO.salesList with sale objects
+	public static void getSales(){
+		Connection con = connect();
+		Statement stmt = null;
+		String query = "SELECT SALES.SALEID, SALES.PRODUCT_ID, PRODUCT.PRODUCT_NAME, SALES.SALE_DATE, SALES.QTYSOLD " +
+				"FROM SYSTEM.SALES " +
+				"JOIN SYSTEM.PRODUCT " +
+				"ON SALES.PRODUCT_ID = PRODUCT.PRODUCT_ID";
+		//fetch the records from database
+		try {
+			stmt = con.createStatement();
+			//creates a result set containing all of the records we fetches
+			ResultSet rs = stmt.executeQuery(query);
+			//page through the result set 
+			while (rs.next()) {
+				//result set points to one line at a time, containing one record.
+				//make variables with each column from the result set
+				Integer saleID = rs.getInt("SALEID");
+				Integer productID = rs.getInt("PRODUCT_ID");
+				String productName = rs.getString("PRODUCT_NAME");
+				Date saleDate = rs.getDate("SALE_DATE");
+				Integer qtySold = rs.getInt("QTYSOLD");
 
+				//make a new sale object and add it to the databaseIO sale arraylist
+				DatabaseIO.saleList.add(new Sale(saleID, productID, productName, saleDate, qtySold));
+			}
+		} catch (SQLException ex) {
+
+			ex.printStackTrace();
+
+		} finally {
+
+			//make sure everything is closed
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					System.err.println("SQLException: " + e.getMessage());
+				}
+			}
+		}
+	}	
+	
 	public static String[] getCategories() {
+
 
 		if(DatabaseIO.productList.size() == 0){
 			DatabaseIO.getProducts();
