@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class DatabaseIO {
 
 	public static ArrayList<Product> productList = new ArrayList<Product>();
+	public static ArrayList<Sale> saleList = new ArrayList<Sale>();
 
 	//use this to create a connection to the database, and then return that connection so that we can use it.
 	//Will cause problems if you cannot access the database, like from inside Swinburne's Network
@@ -166,6 +167,49 @@ public class DatabaseIO {
 		}
 	}
 
+	public static void getSales(){
+
+		Connection con = connect();
+		Statement stmt = null;
+		String query = "SELECT SALES.SALEID, SALES.PRODUCT_ID, PRODUCT.PRODUCT_NAME, SALES.SALE_DATE, SALES.QTYSOLD " +
+				"FROM SYSTEM.SALES " +
+				"JOIN SYSTEM.PRODUCT " +
+				"ON SALES.PRODUCT_ID = PRODUCT.PRODUCT_ID";
+		//fetch the records from database
+		try {
+			stmt = con.createStatement();
+			//creates a result set containing all of the records we fetches
+			ResultSet rs = stmt.executeQuery(query);
+			//page through the result set 
+			while (rs.next()) {
+				//result set points to one line at a time, containing one record.
+				//make variables with each column from the result set
+				Integer saleID = rs.getInt("SALEID");
+				Integer productID = rs.getInt("PRODUCT_ID");
+				String productName = rs.getString("PRODUCT_NAME");
+				Date saleDate = rs.getDate("SALE_DATE");
+				Integer qtySold = rs.getInt("QTYSOLD");
+
+				//make a new sale object and add it to the databaseIO sale arraylist
+				DatabaseIO.saleList.add(new Sale(saleID, productID, productName, saleDate, qtySold));
+			}
+		} catch (SQLException ex) {
+
+			ex.printStackTrace();
+
+		} finally {
+
+			//make sure everything is closed
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					System.err.println("SQLException: " + e.getMessage());
+				}
+			}
+		}
+	}	
+	
 	public static ArrayList<String> getCategories() {
 
 		if(DatabaseIO.productList.size() == 0){
