@@ -1,6 +1,8 @@
 package php;
 
 import java.awt.*;
+import java.sql.SQLException;
+
 import javax.swing.*;
 
 public class WindowForm {
@@ -33,6 +35,10 @@ public class WindowForm {
 		frame.add(gui.TabbedPane());
 		frame.pack();
 		frame.setLocationRelativeTo(null); // must go after .pack() to work
+		
+			DatabaseIO.getProducts();
+	
+		
 		
 	}
 }
