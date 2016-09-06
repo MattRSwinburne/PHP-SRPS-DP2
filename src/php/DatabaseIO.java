@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class DatabaseIO {
 
-public static ArrayList<Product> productList;
+public static ArrayList<Product> productList = new ArrayList<Product>();
 	
 	
 	//use this to create a connection to the database, and then return that connection so that we can use it.
