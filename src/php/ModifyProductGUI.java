@@ -9,13 +9,13 @@ public class ModifyProductGUI extends JPanel {
 	JComboBox<String> categoryBox;
 	JComboBox<String> productBox;
 	JComboBox<String> newCategoryBox;
-	
+
 	JTextField nameField;
 	JTextField descField;
 
 	Button updateButton;
 	Button clearButton;
-	
+
 	Product product;
 
 
@@ -84,8 +84,25 @@ public class ModifyProductGUI extends JPanel {
 	private void UpdateButtonFunction() {
 		updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				// validate input
+				if (nameField.getText().equals("") ||
+						descField.getText().equals(""))
+				{
+					JOptionPane.showMessageDialog(null, "please do not leave any fields blank!");
+				}
+				else
+				{
+					product.productCategory = (String)newCategoryBox.getSelectedItem();
+					product.productName = nameField.getText();
+					product.productDescription = descField.getText();
+					DatabaseIO.updateProduct(product);
+					String productName = product.productName;
+					categoryBox.setSelectedItem(product.productCategory);
+					productBox.setSelectedItem(productName);
+					JOptionPane.showMessageDialog(null, "Product successfully updated");
+				}
 			}
+
 		});
 	}
 
@@ -112,7 +129,7 @@ public class ModifyProductGUI extends JPanel {
 			}
 		});
 	}
-	
+
 	private void ProductBoxContentChangeListener()
 	{
 		productBox.addActionListener(new ActionListener()
@@ -130,21 +147,21 @@ public class ModifyProductGUI extends JPanel {
 	{
 		categoryBox = new JComboBox<String>(DatabaseIO.getCategories());
 		CategoryBoxContentChangeListener();
-		
+
 		productBox = new JComboBox<String>(DatabaseIO.getProductByCategory((String)categoryBox.getSelectedItem()));
 		ProductBoxContentChangeListener();
-		
+
 		newCategoryBox = new JComboBox<String>(DatabaseIO.getCategories());
-		
+
 		product = DatabaseIO.getProduct((String)productBox.getSelectedItem());
 
 		nameField = new JTextField(product.productName);
-		
+
 		descField = new JTextField(product.productDescription);
 
 		updateButton = new Button("UPDATE");
 		UpdateButtonFunction();
-		
+
 		clearButton = new Button("CLEAR");
 		ClearButtonFunction();
 	}

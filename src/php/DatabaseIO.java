@@ -254,8 +254,6 @@ public class DatabaseIO {
 	}	
 	
 	public static String[] getCategories() {
-
-
 		if(DatabaseIO.productList.size() == 0){
 			DatabaseIO.getProducts();
 		}	
