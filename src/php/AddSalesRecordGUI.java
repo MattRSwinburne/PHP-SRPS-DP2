@@ -6,84 +6,55 @@ import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 
 
-public class AddSalesRecordGUI {
-	TextField itemTextField = new TextField();
-	TextField quantityTextField = new TextField();
-	TextField priceTextField = new TextField();
-	//date chooser
-	JDateChooser dateChooser = new JDateChooser();
-
-	Button addButton = new Button("ADD");
-	Button clearButton = new Button("CLEAR");
+public class AddSalesRecordGUI extends JPanel {
+	JTextField itemTextField;
+	JTextField quantityTextField;
+	JTextField priceTextField;
 	
-	public void AddSalesContent(JPanel panel) {
-		GroupLayout layout = new GroupLayout(panel);
-		panel.setLayout(layout);
+	JDateChooser dateChooser;
+	
+	Button addButton;
+	Button clearButton;
+	
+	public AddSalesRecordGUI()
+	{
+		InitializeLocalVars();
+		InitializeContent();
+	}
+	
+	private void InitializeLocalVars()
+	{
+		itemTextField = new JTextField();
+		quantityTextField = new JTextField();
+		priceTextField = new JTextField();
+		//date chooser
+		dateChooser = new JDateChooser();
+
+		addButton = new Button("ADD");
+		clearButton = new Button("CLEAR");
+	}
+
+	
+	private void InitializeContent() {
+		GroupLayout layout = new GroupLayout(this);
+		setLayout(layout);
 		
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		
-		Dimension labelSize = new Dimension(62, 22);
-		
-		Label itemLabel = new Label("Item");
-		itemLabel.setAlignment(Label.RIGHT);
-		itemLabel.setName("itemLabel");
-		itemLabel.setMaximumSize(labelSize);
-		
-		Label quantityLabel = new Label("Quantity");
-		quantityLabel.setAlignment(Label.RIGHT);
-		quantityLabel.setName("quantityLabel");
-		quantityLabel.setMaximumSize(labelSize);
-		
-		Label priceLabel = new Label("Price");
-		priceLabel.setAlignment(Label.RIGHT);
-		priceLabel.setName("priceLabel");
-		priceLabel.setMaximumSize(labelSize);
-		
-		//label for date chooser
-		Label dateLabel = new Label("Date");
-		dateLabel.setAlignment(Label.RIGHT);
-		dateLabel.setName("dateLabel");
-		dateLabel.setMaximumSize(labelSize);
-		
-		Dimension textFieldMinSize = new Dimension(100, 22);
-		Dimension textFieldPrefSize = new Dimension(180, 22);
-		Dimension textFieldMaxSize = new Dimension(300, 22);
-		
-		itemTextField.setName("itemTextField");
-		itemTextField.setMinimumSize(textFieldMinSize);
-		itemTextField.setPreferredSize(textFieldPrefSize);
-		itemTextField.setMaximumSize(textFieldMaxSize);
-		
-		quantityTextField.setName("quantityTextField");
-		quantityTextField.setMinimumSize(textFieldMinSize);
-		quantityTextField.setPreferredSize(textFieldPrefSize);
-		quantityTextField.setMaximumSize(textFieldMaxSize);
-		
-		priceTextField.setName("priceTextField");
-		priceTextField.setMinimumSize(textFieldMinSize);
-		priceTextField.setPreferredSize(textFieldPrefSize);
-		priceTextField.setMaximumSize(textFieldMaxSize);
-		
-		//date chooser
-		dateChooser.setName("dateChooser");
-		dateChooser.setMinimumSize(textFieldMinSize);
-		dateChooser.setPreferredSize(textFieldPrefSize);
-		dateChooser.setMaximumSize(textFieldMaxSize);
-		
-		Dimension buttonSize = new Dimension(50, 30);
-		
-		addButton.setName("addButton");
-		addButton.setMaximumSize(buttonSize);
-		AddButtonFunction();
+		JLabel itemLabel = new JLabel("Item");
+		JLabel quantityLabel = new JLabel("Quantity");
+		JLabel priceLabel = new JLabel("Price");
 
-		clearButton.setName("clearButton");
-		clearButton.setMaximumSize(buttonSize);
+		//label for date chooser
+		JLabel dateLabel = new JLabel("Date");
+		
+		AddButtonFunction();
 		ClearButtonFunctionality();
 		
 		layout.setHorizontalGroup(
 			layout.createSequentialGroup()
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
 					.addComponent(itemLabel)
 					.addComponent(quantityLabel)
 					.addComponent(priceLabel)
@@ -99,19 +70,19 @@ public class AddSalesRecordGUI {
 		);
 		layout.setVerticalGroup(
 			layout.createSequentialGroup()
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 					.addComponent(itemLabel)
 					.addComponent(itemTextField))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 					.addComponent(quantityLabel)
 					.addComponent(quantityTextField))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 					.addComponent(priceLabel)
 					.addComponent(priceTextField))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 					.addComponent(dateLabel)
 					.addComponent(dateChooser))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 					.addComponent(addButton)
 					.addComponent(clearButton))
 		);

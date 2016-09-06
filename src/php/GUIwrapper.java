@@ -1,7 +1,7 @@
 package php;
 
-import java.awt.*;
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 public class GUIwrapper {
 	public JTabbedPane TabbedPane() {
@@ -11,9 +11,7 @@ public class GUIwrapper {
 		HomeGUI home = new HomeGUI();
 		home.HomeContent(homeGUI);
 		
-		JPanel addSalesGUI = new JPanel();
-		AddSalesRecordGUI addSales = new AddSalesRecordGUI();
-		addSales.AddSalesContent(addSalesGUI);
+		JPanel addSalesGUI = new AddSalesSideBar();
 		
 		JPanel viewrecordsGUI = new JPanel();
 		ViewRecordsGUI viewRecords = new ViewRecordsGUI();
