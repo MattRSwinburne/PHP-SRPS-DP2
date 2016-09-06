@@ -1,11 +1,14 @@
 package php;
 
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class WindowForm {
 	private JFrame frame;
-	
+
 	public static void main(String[] args)
 	{
 		EventQueue.invokeLater(new Runnable() {
@@ -19,11 +22,11 @@ public class WindowForm {
 			}
 		});
 	}
-	
+
 	public WindowForm() {
 		Initialize();
 	}
-	
+
 	private void Initialize()
 	{
 		frame = new JFrame("People Health Pharmacy");
@@ -33,6 +36,11 @@ public class WindowForm {
 		frame.add(gui.TabbedPane());
 		frame.pack();
 		frame.setLocationRelativeTo(null); // must go after .pack() to work
-		
+
+		ArrayList<String> categories = DatabaseIO.getCategories();
+
+		for(String p : categories){
+			System.out.println(p);
+		}
 	}
 }

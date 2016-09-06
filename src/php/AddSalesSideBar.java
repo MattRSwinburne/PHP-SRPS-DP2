@@ -15,13 +15,13 @@ public class AddSalesSideBar extends SideBarWrapper {
 	Button addProduct;
 	Button modifyProduct;
 	Button modifyStockLevel;
-	
+
 	JPanel cards;
 	JPanel headings;
-	
+
 	final static String addSalesName = "AddSales";
 	final static String addProductName = "AddProduct";
-	
+
 	protected JPanel Content()
 	{
 		cards = new JPanel(new CardLayout());
@@ -32,7 +32,7 @@ public class AddSalesSideBar extends SideBarWrapper {
 		cards.add(AddProduct, addProductName);
 		return cards;
 	}
-	
+
 	protected JPanel PageHeadings()
 	{
 		headings = new JPanel(new CardLayout());
@@ -40,23 +40,23 @@ public class AddSalesSideBar extends SideBarWrapper {
 		headings.add(new JLabel("Add a Product", SwingConstants.CENTER), addProductName);
 		return headings;
 	}
-	
+
 	protected void GenerateButtons()
 	{
 		addSales = new Button("Add a Sales Record");
 		addProduct = new Button("Add a Product");
 		modifyProduct = new Button("Modify Product");
 		modifyStockLevel = new Button("Modify Stock Levels");
-		
+
 		sideButtons.addElement(addSales);
 		sideButtons.addElement(addProduct);
 		sideButtons.addElement(modifyProduct);
 		sideButtons.addElement(modifyStockLevel);
-		
+
 		AddSalesButtonEvent();
 		AddProductButtonEvent();
 	}
-	
+
 	private void AddSalesButtonEvent()
 	{
 		addSales.addActionListener(new ActionListener()
@@ -70,7 +70,7 @@ public class AddSalesSideBar extends SideBarWrapper {
 			}
 		});
 	}
-	
+
 	private void AddProductButtonEvent()
 	{
 		addProduct.addActionListener(new ActionListener()
