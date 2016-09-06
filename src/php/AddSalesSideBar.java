@@ -5,6 +5,8 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class AddSalesSideBar extends SideBarWrapper {
@@ -14,6 +16,7 @@ public class AddSalesSideBar extends SideBarWrapper {
 	Button modifyStockLevel;
 	
 	JPanel cards;
+	JPanel headings;
 	
 	final static String addSalesName = "AddSales";
 	final static String addProductName = "AddProduct";
@@ -27,6 +30,14 @@ public class AddSalesSideBar extends SideBarWrapper {
 		cards.add(AddSalesRecord, addSalesName);
 		cards.add(AddProduct, addProductName);
 		return cards;
+	}
+	
+	protected JPanel PageHeadings()
+	{
+		headings = new JPanel(new CardLayout());
+		headings.add(new JLabel("Add a Sales Record"), addSalesName);
+		headings.add(new JLabel("Add a Product"), addProductName);
+		return headings;
 	}
 	
 	protected void GenerateButtons()
@@ -51,8 +62,10 @@ public class AddSalesSideBar extends SideBarWrapper {
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				CardLayout cl = (CardLayout)(cards.getLayout());
+				CardLayout cl = (CardLayout)cards.getLayout();
 				cl.show(cards, addSalesName);
+				cl = (CardLayout)headings.getLayout();
+				cl.show(headings, addSalesName);
 			}
 		});
 	}
@@ -63,8 +76,10 @@ public class AddSalesSideBar extends SideBarWrapper {
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				CardLayout cl = (CardLayout)(cards.getLayout());
+				CardLayout cl = (CardLayout)cards.getLayout();
 				cl.show(cards, addProductName);
+				cl = (CardLayout)headings.getLayout();
+				cl.show(headings, addProductName);
 			}
 		});
 	}

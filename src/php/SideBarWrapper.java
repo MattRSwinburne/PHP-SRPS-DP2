@@ -23,6 +23,7 @@ public class SideBarWrapper extends JPanel
 		setLayout(new BorderLayout());
 		
 		add(Content(), BorderLayout.CENTER);
+		add(PageHeadings(), BorderLayout.NORTH);
 		
 		for (Button button : sideButtons)
 		{
@@ -34,6 +35,11 @@ public class SideBarWrapper extends JPanel
 	protected void GenerateButtons() {}
 	
 	protected JPanel Content()
+	{
+		return new JPanel();
+	}
+	
+	protected JPanel PageHeadings()
 	{
 		return new JPanel();
 	}
