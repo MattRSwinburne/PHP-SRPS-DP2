@@ -76,29 +76,27 @@ public class AddProductGUI extends JPanel {
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-
-				String vName,vDescription;
-				int vStock;
-			
+				// validate input
+				Boolean inputError = false;
 				if (nameField.getText().equals("") ||
 					descField.getText().equals("") ||
 					stockField.getText().equals(""))
 				{
-				JOptionPane.showMessageDialog(null, "please do not leave any fields blank!");
+					JOptionPane.showMessageDialog(null, "please do not leave any fields blank!");
+					inputError = true;
 				}
 				else
 				{
-					// validate input
-					Boolean inputError = false;
-					
 					try {
-						vStock = Integer.parseInt(stockField.getText());
+						Integer.parseInt(stockField.getText());
 					} catch (NumberFormatException e) {
 						inputError = true;
-						JOptionPane.showMessageDialog(null, "Please only enter decimal numbers in the stock box!");
+						JOptionPane.showMessageDialog(null, "Please only enter whole numbers in the stock box!");
 					}
 					if (!inputError)
 					{
+						// add it to the database
+						DatabaseIO.addProduct(category.getSelectedItem().toString(), descField.getText(), nameField.getText(), Integer.parseInt(stockField.getText()));
 						JOptionPane.showMessageDialog(null, "Product successfully added");
 						nameField.setText("");
 						descField.setText("");

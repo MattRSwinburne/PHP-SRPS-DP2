@@ -2,12 +2,10 @@ package php;
 
 import java.sql.*;
 
-public class DatabaseIO {
-	
-	
+public class DatabaseIO {	
 	//use this to create a connection to the database, and then return that connection so that we can use it.
 	//Will cause problems if you cannot access the database, like from inside Swinburne's Network
-	public Connection connect(){
+	public static Connection connect(){
 		
 		Connection dbcon = null;
 		
@@ -27,7 +25,7 @@ public class DatabaseIO {
 	}
 	
 	//execute the stored procedure that adds a new product to the database
-	public void addProduct(String productCategory, String productDescription, String productName, int productStock){
+	public static void addProduct(String productCategory, String productDescription, String productName, int productStock){
 		
 		//get the connection
 		Connection con = connect();
@@ -71,14 +69,13 @@ public class DatabaseIO {
                     System.err.println("SQLException: " + e.getMessage());
                 }
             }
-        }
-        
+        }   
 	}
 	
 	//execute the stored procedure that adds a new sale record
 	//when calling this method, make sure you send a java.sql.date into saleDate. This should get you there if you're using java.util.date:
 	//https://stackoverflow.com/questions/25351760/jcalendar-to-sql-date-not-working
-	public void addSale(int productID, Date saleDate, int qtySold){
+	public static void addSale(int productID, Date saleDate, int qtySold){
 		
 		//get the connection
 		Connection con = connect();
@@ -122,9 +119,5 @@ public class DatabaseIO {
                 }
             }
         }
-		
 	}
-	
-	
-	
 }
