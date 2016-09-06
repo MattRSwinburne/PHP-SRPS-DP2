@@ -175,6 +175,10 @@ public static ArrayList<Product> productList = new ArrayList<Product>();
 	
 	public static ArrayList<String> getCategories() {
 		
+		if(DatabaseIO.productList.size() == 0){
+			DatabaseIO.getProducts();
+		}	
+			
 		ArrayList<String> categories = new ArrayList<String>();
 		for(Product p : DatabaseIO.productList){
 			if(!categories.contains(p.productCategory))
