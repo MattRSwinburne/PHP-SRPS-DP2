@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class AddSalesSideBar extends SideBarWrapper {
 	Button addSales;
@@ -35,8 +36,8 @@ public class AddSalesSideBar extends SideBarWrapper {
 	protected JPanel PageHeadings()
 	{
 		headings = new JPanel(new CardLayout());
-		headings.add(new JLabel("Add a Sales Record"), addSalesName);
-		headings.add(new JLabel("Add a Product"), addProductName);
+		headings.add(new JLabel("Add a Sales Record", SwingConstants.CENTER), addSalesName);
+		headings.add(new JLabel("Add a Product", SwingConstants.CENTER), addProductName);
 		return headings;
 	}
 	
