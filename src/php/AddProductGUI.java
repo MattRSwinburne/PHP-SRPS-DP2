@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class AddProductGUI extends JPanel {
-	final String[] categories = { "Tablet", "Liquid", "Balm", "Other" };
+	final static String[] categories = { "Tablet", "Liquid", "Balm", "Other" };
 	
 	JComboBox<String> category;
 	

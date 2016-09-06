@@ -2,52 +2,38 @@ package php;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Calendar;
+
 import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 
 
 public class AddSalesRecordGUI extends JPanel {
-	JTextField itemTextField;
-	JTextField quantityTextField;
-	JTextField priceTextField;
+	JComboBox<String> category;
+	JComboBox<String> product;
 	
 	JDateChooser dateChooser;
+	
+	JSpinner quantity;
 	
 	Button addButton;
 	Button clearButton;
 	
+	
 	public AddSalesRecordGUI()
 	{
-		InitializeLocalVars();
-		InitializeContent();
-	}
-	
-	private void InitializeLocalVars()
-	{
-		itemTextField = new JTextField();
-		quantityTextField = new JTextField();
-		priceTextField = new JTextField();
-		//date chooser
-		dateChooser = new JDateChooser();
+		Initialize();
 
-		addButton = new Button("ADD");
-		clearButton = new Button("CLEAR");
-	}
-
-	
-	private void InitializeContent() {
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
 		
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		
-		JLabel itemLabel = new JLabel("Item");
-		JLabel quantityLabel = new JLabel("Quantity");
-		JLabel priceLabel = new JLabel("Price");
-
-		//label for date chooser
+		JLabel categoryLabel = new JLabel("Category");
+		JLabel productLabel = new JLabel("Product");
 		JLabel dateLabel = new JLabel("Date");
+		JLabel quantityLabel = new JLabel("Quantity");
 		
 		AddButtonFunction();
 		ClearButtonFunctionality();
@@ -55,15 +41,15 @@ public class AddSalesRecordGUI extends JPanel {
 		layout.setHorizontalGroup(
 			layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-					.addComponent(itemLabel)
-					.addComponent(quantityLabel)
-					.addComponent(priceLabel)
-					.addComponent(dateLabel))
+					.addComponent(categoryLabel)
+					.addComponent(productLabel)
+					.addComponent(dateLabel)
+					.addComponent(quantityLabel))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-					.addComponent(itemTextField)
-					.addComponent(quantityTextField)
-					.addComponent(priceTextField)
+					.addComponent(category)
+					.addComponent(product)
 					.addComponent(dateChooser)
+					.addComponent(quantity)
 					.addGroup(layout.createSequentialGroup()
 						.addComponent(addButton)
 						.addComponent(clearButton)))
@@ -71,17 +57,17 @@ public class AddSalesRecordGUI extends JPanel {
 		layout.setVerticalGroup(
 			layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-					.addComponent(itemLabel)
-					.addComponent(itemTextField))
+					.addComponent(categoryLabel)
+					.addComponent(category))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-					.addComponent(quantityLabel)
-					.addComponent(quantityTextField))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-					.addComponent(priceLabel)
-					.addComponent(priceTextField))
+					.addComponent(productLabel)
+					.addComponent(product))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 					.addComponent(dateLabel)
 					.addComponent(dateChooser))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+					.addComponent(quantityLabel)
+					.addComponent(quantity))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 					.addComponent(addButton)
 					.addComponent(clearButton))
@@ -91,41 +77,7 @@ public class AddSalesRecordGUI extends JPanel {
 	private void AddButtonFunction() {
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String vItem;
-				int vQuantity;
-				float vPrice;
-			
-				if (itemTextField.getText().equals("") ||
-					quantityTextField.getText().equals("") ||
-					priceTextField.getText().equals(""))
-				{
-				JOptionPane.showMessageDialog(null, "please do not leave any fields blank!");
-				}
-				else
-				{
-					// validate input
-					Boolean inputError = false;
-					vItem = itemTextField.getText();
-					try {
-						vQuantity = Integer.parseInt(quantityTextField.getText());
-					} catch (NumberFormatException e) {
-						inputError = true;
-						JOptionPane.showMessageDialog(null, "Please only enter whole numbers in the quantity box!");
-					}
-					try {
-						vPrice = Float.valueOf(priceTextField.getText());
-					} catch (NumberFormatException e) {
-						inputError = true;
-						JOptionPane.showMessageDialog(null, "Please only enter decimal numbers in the price box!");
-					}
-					if (!inputError)
-					{
-						JOptionPane.showMessageDialog(null, "item successfully added");
-						itemTextField.setText("");
-						quantityTextField.setText("");
-						priceTextField.setText("");
-					}
-				}					
+
 			}
 		});
 	}
@@ -133,15 +85,27 @@ public class AddSalesRecordGUI extends JPanel {
 	private void ClearButtonFunctionality() {
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// refresh the text fields
-				itemTextField.getText();
-				quantityTextField.getText();
-				priceTextField.getText();
-				// clear them
-				itemTextField.setText("");
-				quantityTextField.setText("");
-				priceTextField.setText("");	
+				category.setSelectedIndex(0);
+				product.setSelectedIndex(0);
+				dateChooser.setDate(Calendar.getInstance().getTime());
+				quantity.setValue(1);
 			}
 		});
+	}
+	
+	private void Initialize()
+	{
+		category = new JComboBox<String>(AddProductGUI.categories);
+		product = new JComboBox<String>(AddProductGUI.categories);
+		//date chooser
+		dateChooser = new JDateChooser(Calendar.getInstance().getTime());
+		
+		quantity = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
+		// left align it
+		JSpinner.DefaultEditor spinnerEditor = (JSpinner.DefaultEditor)quantity.getEditor();
+		spinnerEditor.getTextField().setHorizontalAlignment(JTextField.LEADING);
+
+		addButton = new Button("ADD");
+		clearButton = new Button("CLEAR");
 	}
 }
