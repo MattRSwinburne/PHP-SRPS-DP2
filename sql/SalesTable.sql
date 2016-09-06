@@ -1,0 +1,48 @@
+--------------------------------------------------------
+--  File created - Saturday-September-03-2016   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for Table SALES
+--------------------------------------------------------
+
+  CREATE TABLE "SYSTEM"."SALES" 
+   (	"SALEID" NUMBER, 
+	"PRODUCT_ID" NUMBER, 
+	"SALE_DATE" DATE, 
+	"QTYSOLD" NUMBER
+   ) PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 NOCOMPRESS LOGGING
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  DDL for Index SALES_PK
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYSTEM"."SALES_PK" ON "SYSTEM"."SALES" ("SALEID") 
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM" ;
+--------------------------------------------------------
+--  Constraints for Table SALES
+--------------------------------------------------------
+
+  ALTER TABLE "SYSTEM"."SALES" MODIFY ("SALEID" NOT NULL ENABLE);
+  ALTER TABLE "SYSTEM"."SALES" MODIFY ("PRODUCT_ID" NOT NULL ENABLE);
+  ALTER TABLE "SYSTEM"."SALES" ADD CONSTRAINT "SALES_PK" PRIMARY KEY ("SALEID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS 
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "SYSTEM"  ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table SALES
+--------------------------------------------------------
+
+  ALTER TABLE "SYSTEM"."SALES" ADD CONSTRAINT "SALES_PRODUCT_FK" FOREIGN KEY ("PRODUCT_ID")
+	  REFERENCES "SYSTEM"."PRODUCT" ("PRODUCT_ID") ON DELETE CASCADE ENABLE;
+
+--------------------------------------------------------
+--  DDL for Sequence SALES_ID_SEQ
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "SYSTEM"."SALES_ID_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 41 CACHE 20 NOORDER  NOCYCLE ;

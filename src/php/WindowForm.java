@@ -33,5 +33,6 @@ public class WindowForm {
 		frame.add(gui.TabbedPane());
 		frame.pack();
 		frame.setLocationRelativeTo(null); // must go after .pack() to work
+		
 	}
 }
