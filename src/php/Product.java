@@ -16,4 +16,17 @@ public class Product {
 		this.productStock = productStock;
 	}
 
+	public Product()
+	{
+		productID = -1;
+		productCategory = "";
+		productDescription = "";
+		productName = "";
+		productStock = -1;
+	}
+	
+	public Product(Product product)
+	{
+		this(product.productID, product.productCategory, product.productDescription, product.productName, product.productStock);
+	}
 }

@@ -35,9 +35,6 @@ public class AddSalesRecordGUI extends JPanel {
 		JLabel dateLabel = new JLabel("Date");
 		JLabel quantityLabel = new JLabel("Quantity");
 
-		AddButtonFunction();
-		ClearButtonFunctionality();
-
 		layout.setHorizontalGroup(
 				layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
@@ -82,7 +79,7 @@ public class AddSalesRecordGUI extends JPanel {
 		});
 	}
 
-	private void ClearButtonFunctionality() {
+	private void ClearButtonFunction() {
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				category.setSelectedIndex(0);
@@ -92,11 +89,27 @@ public class AddSalesRecordGUI extends JPanel {
 			}
 		});
 	}
+	
+	private void ProductDropDownContent()
+	{
+		category.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				product.removeAllItems();
+				for (String p : DatabaseIO.getProductByCategory((String)category.getSelectedItem()))
+				{
+					product.addItem(p);
+				}
+			}
+		});
+	}
 
 	private void Initialize()
 	{
-		category = new JComboBox<String>(AddProductGUI.categories);
-		product = new JComboBox<String>(AddProductGUI.categories);
+		category = new JComboBox<String>(DatabaseIO.getCategories());
+		product = new JComboBox<String>(DatabaseIO.getProductByCategory((String)category.getSelectedItem()));
+		ProductDropDownContent();
 		//date chooser
 		dateChooser = new JDateChooser(Calendar.getInstance().getTime());
 
@@ -107,5 +120,8 @@ public class AddSalesRecordGUI extends JPanel {
 
 		addButton = new Button("ADD");
 		clearButton = new Button("CLEAR");
+		
+		AddButtonFunction();
+		ClearButtonFunction();
 	}
 }

@@ -166,7 +166,7 @@ public class DatabaseIO {
 		}
 	}
 
-	public static ArrayList<String> getCategories() {
+	public static String[] getCategories() {
 
 		if(DatabaseIO.productList.size() == 0){
 			DatabaseIO.getProducts();
@@ -177,6 +177,46 @@ public class DatabaseIO {
 			if(!categories.contains(p.productCategory))
 				categories.add(p.productCategory);
 		}
-		return categories;
+		String[] categoryArray = categories.toArray(new String[categories.size()]);
+		return categoryArray;
+	}
+	
+	public static String[] getProductByCategory(String category)
+	{
+		ArrayList<String> products = new ArrayList<String>();
+		Boolean found = false;
+		for (String cat : getCategories())
+		{
+			if (category.equals(cat))
+			{
+				found = true;
+				break;
+			}
+		}
+		if (found)
+		{
+			for (Product product : productList)
+			{
+				if (product.productCategory.equals(category))
+				{
+					products.add(product.productName);
+				}
+			}
+		}
+		
+		String[] productArray = products.toArray(new String[products.size()]);
+		return productArray;
+	}
+	
+	public static Product getProduct(String name)
+	{
+		for (Product product : productList)
+		{
+			if (product.productName.equals(name))
+			{
+				return product;
+			}
+		}
+		return new Product();
 	}
 }

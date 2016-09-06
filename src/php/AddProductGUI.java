@@ -10,7 +10,7 @@ public class AddProductGUI extends JPanel {
 	JComboBox<String> category;
 
 	JTextField nameField;
-	JTextArea descField;
+	JTextField descField;
 	JTextField stockField;
 
 	Button addButton;
@@ -29,9 +29,6 @@ public class AddProductGUI extends JPanel {
 		JLabel nameLabel = new JLabel("Name");
 		JLabel descriptionLabel = new JLabel("Description");
 		JLabel stockLabel = new JLabel("Stock");
-
-		AddButtonFunction();
-		ClearButtonFunction();
 
 		layout.setHorizontalGroup(
 				layout.createSequentialGroup()
@@ -126,12 +123,12 @@ public class AddProductGUI extends JPanel {
 	{
 		category = new JComboBox<String>(categories);
 		nameField = new JTextField();
-		descField = new JTextArea();
-		descField.setLineWrap(true);
-		descField.setWrapStyleWord(true);
-		descField.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		descField = new JTextField();
 		stockField = new JTextField();
 		addButton = new Button("ADD");
 		clearButton = new Button("CLEAR");
+		
+		AddButtonFunction();
+		ClearButtonFunction();
 	}
 }

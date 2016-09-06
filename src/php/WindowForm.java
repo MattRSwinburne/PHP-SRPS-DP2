@@ -37,10 +37,10 @@ public class WindowForm {
 		frame.pack();
 		frame.setLocationRelativeTo(null); // must go after .pack() to work
 
-		ArrayList<String> categories = DatabaseIO.getCategories();
+		//ArrayList<String> categories = DatabaseIO.getCategories();
 
-		for(String p : categories){
-			System.out.println(p);
-		}
+		//for(String p : categories){
+		//	System.out.println(p);
+		//}
 	}
 }

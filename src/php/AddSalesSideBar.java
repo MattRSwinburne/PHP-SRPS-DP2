@@ -19,33 +19,39 @@ public class AddSalesSideBar extends SideBarWrapper {
 	JPanel cards;
 	JPanel headings;
 
-	final static String addSalesName = "AddSales";
-	final static String addProductName = "AddProduct";
+	final static String addSalesLabel = "Add a Sales Record";
+	final static String addProductLabel = "Add a Product";
+	final static String modifyProductLabel = "Modify a Product";
 
 	protected JPanel Content()
 	{
 		cards = new JPanel(new CardLayout());
 		cards.setPreferredSize(new Dimension(500, 300));
+		
 		JPanel AddSalesRecord = new AddSalesRecordGUI();
 		JPanel AddProduct = new AddProductGUI();
-		cards.add(AddSalesRecord, addSalesName);
-		cards.add(AddProduct, addProductName);
+		JPanel ModifyProduct = new ModifyProductGUI();
+		
+		cards.add(AddSalesRecord, addSalesLabel);
+		cards.add(AddProduct, addProductLabel);
+		cards.add(ModifyProduct, modifyProductLabel);
 		return cards;
 	}
 
 	protected JPanel PageHeadings()
 	{
 		headings = new JPanel(new CardLayout());
-		headings.add(new JLabel("Add a Sales Record", SwingConstants.CENTER), addSalesName);
-		headings.add(new JLabel("Add a Product", SwingConstants.CENTER), addProductName);
+		headings.add(new JLabel(addSalesLabel, SwingConstants.CENTER), addSalesLabel);
+		headings.add(new JLabel(addProductLabel, SwingConstants.CENTER), addProductLabel);
+		headings.add(new JLabel(modifyProductLabel, SwingConstants.CENTER), modifyProductLabel);
 		return headings;
 	}
 
 	protected void GenerateButtons()
 	{
-		addSales = new Button("Add a Sales Record");
-		addProduct = new Button("Add a Product");
-		modifyProduct = new Button("Modify Product");
+		addSales = new Button(addSalesLabel);
+		addProduct = new Button(addProductLabel);
+		modifyProduct = new Button(modifyProductLabel);
 		modifyStockLevel = new Button("Modify Stock Levels");
 
 		sideButtons.addElement(addSales);
@@ -55,6 +61,7 @@ public class AddSalesSideBar extends SideBarWrapper {
 
 		AddSalesButtonEvent();
 		AddProductButtonEvent();
+		ModifyProductButtonEvent();
 	}
 
 	private void AddSalesButtonEvent()
@@ -64,9 +71,9 @@ public class AddSalesSideBar extends SideBarWrapper {
 			public void actionPerformed(ActionEvent arg0)
 			{
 				CardLayout cl = (CardLayout)cards.getLayout();
-				cl.show(cards, addSalesName);
+				cl.show(cards, addSalesLabel);
 				cl = (CardLayout)headings.getLayout();
-				cl.show(headings, addSalesName);
+				cl.show(headings, addSalesLabel);
 			}
 		});
 	}
@@ -78,9 +85,23 @@ public class AddSalesSideBar extends SideBarWrapper {
 			public void actionPerformed(ActionEvent arg0)
 			{
 				CardLayout cl = (CardLayout)cards.getLayout();
-				cl.show(cards, addProductName);
+				cl.show(cards, addProductLabel);
 				cl = (CardLayout)headings.getLayout();
-				cl.show(headings, addProductName);
+				cl.show(headings, addProductLabel);
+			}
+		});
+	}
+	
+	private void ModifyProductButtonEvent()
+	{
+		modifyProduct.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
+				CardLayout cl = (CardLayout)cards.getLayout();
+				cl.show(cards, modifyProductLabel);
+				cl = (CardLayout)headings.getLayout();
+				cl.show(headings, modifyProductLabel);
 			}
 		});
 	}
