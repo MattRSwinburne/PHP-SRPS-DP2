@@ -2,7 +2,6 @@ package php;
 
 import java.awt.Button;
 import java.awt.CardLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,21 +18,20 @@ public class AddSalesSideBar extends SideBarWrapper {
 	JPanel cards;
 	JPanel headings;
 
-	final static String addSalesLabel = "Add a Sales Record";
-	final static String addProductLabel = "Add a Product";
-	final static String modifyProductLabel = "Modify a Product";
-	final static String modifyStockLabel = "Modify Stock Level";
+	final String addSalesLabel = "Add a Sales Record";
+	final String addProductLabel = "Add a Product";
+	final String modifyProductLabel = "Modify a Product";
+	final String modifyStockLabel = "Modify Stock Level";
 
 	protected JPanel Content()
 	{
 		cards = new JPanel(new CardLayout());
-		cards.setPreferredSize(new Dimension(500, 300));
-		
+
 		JPanel AddSalesRecord = new AddSalesRecordGUI();
 		JPanel AddProduct = new AddProductGUI();
 		JPanel ModifyProduct = new ModifyProductGUI();
 		JPanel ModifyStock = new ModifyStockGUI();
-		
+
 		cards.add(AddSalesRecord, addSalesLabel);
 		cards.add(AddProduct, addProductLabel);
 		cards.add(ModifyProduct, modifyProductLabel);
@@ -97,7 +95,7 @@ public class AddSalesSideBar extends SideBarWrapper {
 			}
 		});
 	}
-	
+
 	private void ModifyProductButtonEvent()
 	{
 		modifyProduct.addActionListener(new ActionListener()
@@ -111,7 +109,7 @@ public class AddSalesSideBar extends SideBarWrapper {
 			}
 		});
 	}
-	
+
 	private void ModifyStockButtonEvent()
 	{
 		modifyStock.addActionListener(new ActionListener()

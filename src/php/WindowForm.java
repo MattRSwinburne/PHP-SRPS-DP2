@@ -33,7 +33,7 @@ public class WindowForm {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//frame.setPreferredSize(new Dimension(800,600));
 		GUIwrapper gui = new GUIwrapper();
-		frame.add(gui.TabbedPane());
+		frame.add(gui);
 		frame.pack();
 		frame.setLocationRelativeTo(null); // must go after .pack() to work
 	}
