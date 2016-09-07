@@ -27,7 +27,6 @@ public class GUIwrapper extends JPanel {
 	private JTabbedPane TabbedPane() {
 		JTabbedPane tabbedPane = new JTabbedPane();
 
-		JPanel homeGUI = new HomeGUI();
 		JPanel addSalesGUI = new AddSalesSideBar();
 
 		JPanel viewrecordsGUI = new JPanel();
@@ -38,7 +37,6 @@ public class GUIwrapper extends JPanel {
 		ReportsGUI reports = new ReportsGUI();
 		reports.ReportsContent(reportsGUI);
 
-		tabbedPane.addTab("Home", null, homeGUI, null);
 		tabbedPane.addTab("Add Sales", null, addSalesGUI, null);
 		tabbedPane.addTab("View Sales", null, viewrecordsGUI, null);
 		tabbedPane.addTab("Reports", null, reportsGUI, null);
