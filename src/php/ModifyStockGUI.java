@@ -1,11 +1,10 @@
 package php;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.Date;
-import java.util.Calendar;
+import java.awt.Button;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
-import com.toedter.calendar.JDateChooser;
 
 
 public class ModifyStockGUI extends JPanel {
