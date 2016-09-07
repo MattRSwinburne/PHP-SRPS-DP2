@@ -5,6 +5,7 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 
 public class GUIwrapper extends JPanel {
 	private final String loginLabel = "Login";
@@ -29,9 +30,7 @@ public class GUIwrapper extends JPanel {
 
 		JPanel addSalesGUI = new AddSalesSideBar();
 
-		JPanel viewrecordsGUI = new JPanel();
-		ViewRecordsGUI viewRecords = new ViewRecordsGUI();
-		viewRecords.ViewRecordsContent(viewrecordsGUI);
+		JPanel viewrecordsGUI = new ViewRecordsGUI();
 
 		JPanel reportsGUI = new JPanel();
 		ReportsGUI reports = new ReportsGUI();
