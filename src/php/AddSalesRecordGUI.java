@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Calendar;
 import javax.swing.*;
+import javax.swing.JSpinner.DefaultEditor;
+
 import com.toedter.calendar.JDateChooser;
 
 
@@ -74,15 +76,35 @@ public class AddSalesRecordGUI extends JPanel {
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Product product = DatabaseIO.getProduct((String)productBox.getSelectedItem());
+
+				int selectedQuantity;
+				Boolean inputError = false;
+				try {
+					quantity.commitEdit();
+				}
+				catch (Exception e) {
+					inputError = true;
+					// Edited value is invalid, spinner.getValue() will return
+					// the last valid value, you could revert the spinner to show that:
+					JComponent editor = quantity.getEditor();
+					if (editor instanceof DefaultEditor) {
+						((DefaultEditor)editor).getTextField().setValue(quantity.getValue());
+					}
+				}
+				selectedQuantity = (int)quantity.getValue();
+
+
 				// check available stock
-				if ((int)quantity.getValue() > product.productStock)
+				if (selectedQuantity > product.productStock)
 				{
 					JOptionPane.showMessageDialog(null, "There is not enough stock available for this purchase");
+					inputError = true;
 				}
-				else
+				
+				if (!inputError)
 				{
 					java.sql.Date sqlDate = new java.sql.Date(dateChooser.getDate().getTime());
-					DatabaseIO.addSale(product.productID, sqlDate, (int)quantity.getValue());
+					DatabaseIO.addSale(product.productID, sqlDate, selectedQuantity);
 					JOptionPane.showMessageDialog(null, "The sale has been recorded");
 				}
 			}
