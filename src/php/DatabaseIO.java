@@ -71,6 +71,10 @@ public class DatabaseIO {
 					System.err.println("SQLException: " + e.getMessage());
 				}
 			}
+
+			//refresh the product arraylist
+			DatabaseIO.productList.clear();
+			DatabaseIO.getProducts();
 		}   
 	}
 
@@ -120,6 +124,10 @@ public class DatabaseIO {
 					System.err.println("SQLException: " + e.getMessage());
 				}
 			}
+
+			// refresh the sales list
+			DatabaseIO.saleList.clear();
+			DatabaseIO.getSales();
 		}
 	}
 
@@ -168,7 +176,7 @@ public class DatabaseIO {
 		}
 
 	}
-	
+
 	//gets the products from the database, and populates the DatabaseIO.productList arraylist with product objects
 	public static void getProducts(){
 
@@ -209,7 +217,7 @@ public class DatabaseIO {
 			}
 		}
 	}
-	
+
 	//gets the sales records from the database and populates the DatabaseIO.salesList with sale objects
 	public static void getSales(){
 		Connection con = connect();
@@ -252,7 +260,7 @@ public class DatabaseIO {
 			}
 		}
 	}	
-	
+
 	public static String[] getCategories() {
 		if(DatabaseIO.productList.size() == 0){
 			DatabaseIO.getProducts();
@@ -266,7 +274,7 @@ public class DatabaseIO {
 		String[] categoryArray = categories.toArray(new String[categories.size()]);
 		return categoryArray;
 	}
-	
+
 	public static String[] getProductByCategory(String category)
 	{
 		ArrayList<String> products = new ArrayList<String>();
@@ -289,11 +297,11 @@ public class DatabaseIO {
 				}
 			}
 		}
-		
+
 		String[] productArray = products.toArray(new String[products.size()]);
 		return productArray;
 	}
-	
+
 	public static Product getProduct(String name)
 	{
 		for (Product product : productList)

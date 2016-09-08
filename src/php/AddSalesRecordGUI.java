@@ -83,8 +83,6 @@ public class AddSalesRecordGUI extends JPanel {
 				{
 					java.sql.Date sqlDate = new java.sql.Date(dateChooser.getDate().getTime());
 					DatabaseIO.addSale(product.productID, sqlDate, (int)quantity.getValue());
-					DatabaseIO.saleList.clear();
-					DatabaseIO.getSales();
 					JOptionPane.showMessageDialog(null, "The sale has been recorded");
 				}
 			}
@@ -101,7 +99,7 @@ public class AddSalesRecordGUI extends JPanel {
 			}
 		});
 	}
-	
+
 	private void ProductDropDownContent()
 	{
 		category.addActionListener(new ActionListener()
@@ -132,7 +130,7 @@ public class AddSalesRecordGUI extends JPanel {
 
 		addButton = new Button("ADD");
 		clearButton = new Button("CLEAR");
-		
+
 		AddButtonFunction();
 		ClearButtonFunction();
 	}
