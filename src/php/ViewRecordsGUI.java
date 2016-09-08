@@ -7,8 +7,11 @@ import javax.swing.table.DefaultTableModel;
 
 
 public class ViewRecordsGUI extends JPanel {
-	private JTable table  = new JTable();
-	private DefaultTableModel model = new DefaultTableModel(new Object[]{"Sale ID", "Product", "Qty Sold", "Sale Date"}, 0);
+	private JTable table;
+	private DefaultTableModel model;
+
+	private int numberOfSales;
+
 	public ViewRecordsGUI() {
 
 		initialise();
@@ -17,8 +20,11 @@ public class ViewRecordsGUI extends JPanel {
 	private void initialise() {
 		setLayout(new GridLayout(1, 0, 0, 0));
 		DatabaseIO.getSales();
-		
-		fillTable();
+		model = new DefaultTableModel(new Object[]{"Sale ID", "Product", "Qty Sold", "Sale Date"}, 0);
+		table = new JTable();
+		numberOfSales = 0;
+
+		fillTableModel();
 		SalesContentChangeListener();
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -27,15 +33,16 @@ public class ViewRecordsGUI extends JPanel {
 		table.setModel(model);
 
 	}
-	
-	private void fillTable()
+
+	private void fillTableModel()
 	{
-		if (model.getRowCount() > 0)
+		if (numberOfSales != DatabaseIO.saleList.size())
 		{
 			model.setRowCount(0);
-		}
-		for(Sale sale:DatabaseIO.saleList){
-			model.addRow(new Object[]{sale.getSaleID(), sale.getProductName(), sale.getQtySold(), sale.getSaleDate()});
+			for(Sale sale:DatabaseIO.saleList){
+				model.addRow(new Object[]{sale.getSaleID(), sale.getProductName(), sale.getQtySold(), sale.getSaleDate()});
+			}
+			numberOfSales = DatabaseIO.saleList.size();
 		}
 	}
 
@@ -45,9 +52,9 @@ public class ViewRecordsGUI extends JPanel {
 		{
 			public void focusGained(FocusEvent arg0)
 			{
-				fillTable();
+				fillTableModel();
 			}
-			
+
 			// don't care about losing focus
 			public void focusLost(FocusEvent arg0) {}
 		});
