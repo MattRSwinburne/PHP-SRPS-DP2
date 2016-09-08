@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.JSpinner.DefaultEditor;
 
 
 public class ModifyStockGUI extends JPanel {
@@ -15,7 +16,7 @@ public class ModifyStockGUI extends JPanel {
 
 	Button updateButton;
 	Button clearButton;
-	
+
 	Product product;
 
 
@@ -67,9 +68,26 @@ public class ModifyStockGUI extends JPanel {
 	private void UpdateButtonFunction() {
 		updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Boolean inputError = false;				
+				try {
+					quantity.commitEdit();
+				}
+				catch (Exception e) {
+					inputError = true;
+					// Edited value is invalid, spinner.getValue() will return
+					// the last valid value, you could revert the spinner to show that:
+					JComponent editor = quantity.getEditor();
+					if (editor instanceof DefaultEditor) {
+						((DefaultEditor)editor).getTextField().setValue(quantity.getValue());
+					}
+				}
 				product.productStock = (int)quantity.getValue();
-				DatabaseIO.updateProduct(product);
-				JOptionPane.showMessageDialog(null, "The stock of " + product.productName + " has been updated");
+
+				if (!inputError)
+				{
+					DatabaseIO.updateProduct(product);
+					JOptionPane.showMessageDialog(null, "The stock of " + product.productName + " has been updated");
+				}
 			}
 		});
 	}
@@ -83,7 +101,7 @@ public class ModifyStockGUI extends JPanel {
 			}
 		});
 	}
-	
+
 	private void CategoryBoxContentChangeListener()
 	{
 		category.addActionListener(new ActionListener()
@@ -98,7 +116,7 @@ public class ModifyStockGUI extends JPanel {
 			}
 		});
 	}
-	
+
 	private void ProductBoxContentChangeListener()
 	{
 		productBox.addActionListener(new ActionListener()
@@ -117,7 +135,7 @@ public class ModifyStockGUI extends JPanel {
 		productBox = new JComboBox<String>(DatabaseIO.getProductByCategory((String)category.getSelectedItem()));
 		CategoryBoxContentChangeListener();
 		ProductBoxContentChangeListener();
-		
+
 		product = DatabaseIO.getProduct((String)productBox.getSelectedItem());
 
 		quantity = new JSpinner(new SpinnerNumberModel(product.productStock, 0, Integer.MAX_VALUE, 1));
@@ -127,7 +145,7 @@ public class ModifyStockGUI extends JPanel {
 
 		updateButton = new Button("UPDATE");
 		clearButton = new Button("CLEAR");
-		
+
 		UpdateButtonFunction();
 		ClearButtonFunction();
 	}
