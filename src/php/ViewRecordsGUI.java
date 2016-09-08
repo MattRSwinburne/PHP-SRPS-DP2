@@ -31,7 +31,7 @@ public class ViewRecordsGUI extends JPanel {
 		add(scrollPane);
 		scrollPane.setViewportView(table);
 		table.setModel(model);
-
+		table.setAutoCreateRowSorter(true);
 	}
 
 	private void fillTableModel()
