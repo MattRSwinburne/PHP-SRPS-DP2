@@ -55,7 +55,7 @@ public class LoginGUI extends JPanel {
 				);
 	}
 
-	public void LoginButtonFunction(JPanel loginBlock, String contentLabel) {
+	public void LoginButtonFunction(final JPanel loginBlock, final String contentLabel) {
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 

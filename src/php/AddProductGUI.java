@@ -94,6 +94,9 @@ public class AddProductGUI extends JPanel {
 					{
 						// add it to the database
 						DatabaseIO.addProduct(category.getSelectedItem().toString(), descField.getText(), nameField.getText(), Integer.parseInt(stockField.getText()));
+						//refresh the product arraylist
+						DatabaseIO.productList.clear();
+						DatabaseIO.getProducts();
 						JOptionPane.showMessageDialog(null, "Product successfully added");
 						nameField.setText("");
 						descField.setText("");
