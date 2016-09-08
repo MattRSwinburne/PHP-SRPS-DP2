@@ -97,7 +97,6 @@ public class AddProductGUI extends JPanel {
 						//refresh the product arraylist
 						DatabaseIO.productList.clear();
 						DatabaseIO.getProducts();
-						
 						JOptionPane.showMessageDialog(null, "Product successfully added");
 						nameField.setText("");
 						descField.setText("");

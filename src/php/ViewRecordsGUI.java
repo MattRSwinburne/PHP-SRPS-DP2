@@ -9,6 +9,11 @@ import javax.swing.table.DefaultTableModel;
 public class ViewRecordsGUI extends JPanel {
 	private JTable table;
 	public ViewRecordsGUI() {
+		
+		initialise();
+		
+	}
+	private void initialise() {
 		setLayout(new GridLayout(1, 0, 0, 0));
 		DatabaseIO.getSales();
 		DefaultTableModel model = new DefaultTableModel(new Object[]{"Sale ID", "Product", "Qty Sold", "Sale Date"}, 0);
