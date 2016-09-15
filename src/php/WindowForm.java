@@ -1,11 +1,14 @@
 package php;
 
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class WindowForm {
 	private JFrame frame;
-	
+
 	public static void main(String[] args)
 	{
 		EventQueue.invokeLater(new Runnable() {
@@ -19,18 +22,18 @@ public class WindowForm {
 			}
 		});
 	}
-	
+
 	public WindowForm() {
 		Initialize();
 	}
-	
+
 	private void Initialize()
 	{
 		frame = new JFrame("People Health Pharmacy");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(800,600));
+		//frame.setPreferredSize(new Dimension(800,600));
 		GUIwrapper gui = new GUIwrapper();
-		frame.add(gui.TabbedPane());
+		frame.add(gui);
 		frame.pack();
 		frame.setLocationRelativeTo(null); // must go after .pack() to work
 	}
