@@ -9,7 +9,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
  
-public class PrintFunction extends Application {
+public class BarChartSample extends Application {
 	ViewRecordsGUI viewReport = new ViewRecordsGUI();
 	ReportsGUI reportsGUI = new ReportsGUI();
 	
@@ -25,7 +25,6 @@ public class PrintFunction extends Application {
     final static String october = "October";
     final static String november = "November";
     final static String december = "December";
-  
   
 
     @Override public void start(Stage stage) {
@@ -45,18 +44,26 @@ public class PrintFunction extends Application {
         series1.getData().add(new XYChart.Data(march, 10000));
         series1.getData().add(new XYChart.Data(april, 35407.15));
         series1.getData().add(new XYChart.Data(may, 12000));      
-        series1.getData().add(new XYChart.Data(june, 19000));
-        series1.getData().add(new XYChart.Data(jully, 2000));
-        series1.getData().add(new XYChart.Data(august, 22000));
-        series1.getData().add(new XYChart.Data(september, 32000));
-        series1.getData().add(new XYChart.Data(october, 12800));
-        series1.getData().add(new XYChart.Data(november, 14000));
-        series1.getData().add(new XYChart.Data(december, 42000));
-
-
         
+        //viewReport.fillTableModel();
+   /*     XYChart.Series series2 = new XYChart.Series();
+        series2.setName("2004");
+        series2.getData().add(new XYChart.Data(austria, 57401.85));
+        series2.getData().add(new XYChart.Data(brazil, 41941.19));
+        series2.getData().add(new XYChart.Data(france, 45263.37));
+        series2.getData().add(new XYChart.Data(italy, 117320.16));
+        series2.getData().add(new XYChart.Data(usa, 14845.27));  
+        
+        XYChart.Series series3 = new XYChart.Series();
+        series3.setName("2005");
+        series3.getData().add(new XYChart.Data(austria, 45000.65));
+        series3.getData().add(new XYChart.Data(brazil, 44835.76));
+        series3.getData().add(new XYChart.Data(france, 18722.18));
+        series3.getData().add(new XYChart.Data(italy, 17557.31));
+        series3.getData().add(new XYChart.Data(usa, 92633.68));  */
         
         Scene scene  = new Scene(bc,800,600);
+       // bc.getData().addAll(series1, series2, series3);
         bc.getData().add(series1);
         stage.setScene(scene);
         stage.show();
