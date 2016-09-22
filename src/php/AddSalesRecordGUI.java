@@ -2,158 +2,155 @@ package php;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Calendar;
 import javax.swing.*;
-import javax.swing.JSpinner.DefaultEditor;
-
-import com.toedter.calendar.JDateChooser;
 
 
-public class AddSalesRecordGUI extends JPanel {
-	JComboBox<String> category;
-	JComboBox<String> productBox;
+public class AddSalesRecordGUI {
+	TextField itemTextField = new TextField();
+	TextField quantityTextField = new TextField();
+	TextField priceTextField = new TextField();
 
-	JDateChooser dateChooser;
-
-	JSpinner quantity;
-
-	Button addButton;
-	Button clearButton;
-
-
-	public AddSalesRecordGUI()
-	{
-		Initialize();
-
-		GroupLayout layout = new GroupLayout(this);
-		setLayout(layout);
-
+	Button addButton = new Button("ADD");
+	Button clearButton = new Button("CLEAR");
+	
+	public void AddSalesContent(JPanel panel) {
+		GroupLayout layout = new GroupLayout(panel);
+		panel.setLayout(layout);
+		
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
+		
+		Dimension labelSize = new Dimension(50, 22);
+		
+		Label itemLabel = new Label("Item");
+		itemLabel.setAlignment(Label.RIGHT);
+		itemLabel.setName("itemLabel");
+		itemLabel.setMaximumSize(labelSize);
+		
+		Label quantityLabel = new Label("Quantity");
+		quantityLabel.setAlignment(Label.RIGHT);
+		quantityLabel.setName("quantityLabel");
+		quantityLabel.setMaximumSize(labelSize);
+		
+		Label priceLabel = new Label("Price");
+		priceLabel.setAlignment(Label.RIGHT);
+		priceLabel.setName("priceLabel");
+		priceLabel.setMaximumSize(labelSize);
+		
+		Dimension textFieldMinSize = new Dimension(100, 22);
+		Dimension textFieldPrefSize = new Dimension(180, 22);
+		Dimension textFieldMaxSize = new Dimension(300, 22);
+		
+		itemTextField.setName("itemTextField");
+		itemTextField.setMinimumSize(textFieldMinSize);
+		itemTextField.setPreferredSize(textFieldPrefSize);
+		itemTextField.setMaximumSize(textFieldMaxSize);
+		
+		quantityTextField.setName("quantityTextField");
+		quantityTextField.setMinimumSize(textFieldMinSize);
+		quantityTextField.setPreferredSize(textFieldPrefSize);
+		quantityTextField.setMaximumSize(textFieldMaxSize);
+		
+		priceTextField.setName("priceTextField");
+		priceTextField.setMinimumSize(textFieldMinSize);
+		priceTextField.setPreferredSize(textFieldPrefSize);
+		priceTextField.setMaximumSize(textFieldMaxSize);
+		
+		Dimension buttonSize = new Dimension(50, 30);
+		
+		addButton.setName("addButton");
+		addButton.setMaximumSize(buttonSize);
+		AddButtonFunction();
 
-		JLabel categoryLabel = new JLabel("Category");
-		JLabel productLabel = new JLabel("Product");
-		JLabel dateLabel = new JLabel("Date");
-		JLabel quantityLabel = new JLabel("Quantity");
-
+		clearButton.setName("clearButton");
+		clearButton.setMaximumSize(buttonSize);
+		ClearButtonFunctionality();
+		
 		layout.setHorizontalGroup(
-				layout.createSequentialGroup()
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-						.addComponent(categoryLabel)
-						.addComponent(productLabel)
-						.addComponent(dateLabel)
-						.addComponent(quantityLabel))
+			layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-						.addComponent(category)
-						.addComponent(productBox)
-						.addComponent(dateChooser)
-						.addComponent(quantity)
-						.addGroup(layout.createSequentialGroup()
-								.addComponent(addButton)
-								.addComponent(clearButton)))
-				);
-		layout.setVerticalGroup(
-				layout.createSequentialGroup()
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-						.addComponent(categoryLabel)
-						.addComponent(category))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-						.addComponent(productLabel)
-						.addComponent(productBox))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-						.addComponent(dateLabel)
-						.addComponent(dateChooser))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-						.addComponent(quantityLabel)
-						.addComponent(quantity))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+					.addComponent(itemLabel)
+					.addComponent(quantityLabel)
+					.addComponent(priceLabel))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addComponent(itemTextField)
+					.addComponent(quantityTextField)
+					.addComponent(priceTextField)
+					.addGroup(layout.createSequentialGroup()
 						.addComponent(addButton)
-						.addComponent(clearButton))
-				);
+						.addComponent(clearButton)))
+		);
+		layout.setVerticalGroup(
+			layout.createSequentialGroup()
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addComponent(itemLabel)
+					.addComponent(itemTextField))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addComponent(quantityLabel)
+					.addComponent(quantityTextField))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addComponent(priceLabel)
+					.addComponent(priceTextField))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+					.addComponent(addButton)
+					.addComponent(clearButton))
+		);
 	}
-
+	
 	private void AddButtonFunction() {
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Product product = DatabaseIO.getProduct((String)productBox.getSelectedItem());
-
-				int selectedQuantity;
-				Boolean inputError = false;
-				try {
-					quantity.commitEdit();
+				String vItem;
+				int vQuantity;
+				float vPrice;
+			
+				if (itemTextField.getText().equals("") ||
+					quantityTextField.getText().equals("") ||
+					priceTextField.getText().equals(""))
+				{
+				JOptionPane.showMessageDialog(null, "please do not leave any fields blank!");
 				}
-				catch (Exception e) {
-					inputError = true;
-					// Edited value is invalid, spinner.getValue() will return
-					// the last valid value, you could revert the spinner to show that:
-					JComponent editor = quantity.getEditor();
-					if (editor instanceof DefaultEditor) {
-						((DefaultEditor)editor).getTextField().setValue(quantity.getValue());
+				else
+				{
+					// validate input
+					Boolean inputError = false;
+					vItem = itemTextField.getText();
+					try {
+						vQuantity = Integer.parseInt(quantityTextField.getText());
+					} catch (NumberFormatException e) {
+						inputError = true;
+						JOptionPane.showMessageDialog(null, "Please only enter whole numbers in the quantity box!");
 					}
-				}
-				selectedQuantity = (int)quantity.getValue();
-
-
-				// check available stock
-				if (selectedQuantity > product.productStock)
-				{
-					JOptionPane.showMessageDialog(null, "There is not enough stock available for this purchase");
-					inputError = true;
-				}
-				
-				if (!inputError)
-				{
-					java.sql.Date sqlDate = new java.sql.Date(dateChooser.getDate().getTime());
-					DatabaseIO.addSale(product.productID, sqlDate, selectedQuantity);
-					JOptionPane.showMessageDialog(null, "The sale has been recorded");
-				}
+					try {
+						vPrice = Float.valueOf(priceTextField.getText());
+					} catch (NumberFormatException e) {
+						inputError = true;
+						JOptionPane.showMessageDialog(null, "Please only enter decimal numbers in the price box!");
+					}
+					if (!inputError)
+					{
+						JOptionPane.showMessageDialog(null, "item successfully added");
+						itemTextField.setText("");
+						quantityTextField.setText("");
+						priceTextField.setText("");
+					}
+				}					
 			}
 		});
 	}
-
-	private void ClearButtonFunction() {
+	
+	private void ClearButtonFunctionality() {
 		clearButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				category.setSelectedIndex(0);
-				productBox.setSelectedIndex(0);
-				dateChooser.setDate(Calendar.getInstance().getTime());
-				quantity.setValue(1);
+				// refresh the text fields
+				itemTextField.getText();
+				quantityTextField.getText();
+				priceTextField.getText();
+				// clear them
+				itemTextField.setText("");
+				quantityTextField.setText("");
+				priceTextField.setText("");	
 			}
 		});
-	}
-
-	private void ProductDropDownContent()
-	{
-		category.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				productBox.removeAllItems();
-				for (String p : DatabaseIO.getProductByCategory((String)category.getSelectedItem()))
-				{
-					productBox.addItem(p);
-				}
-			}
-		});
-	}
-
-	private void Initialize()
-	{
-		category = new JComboBox<String>(DatabaseIO.getCategories());
-		productBox = new JComboBox<String>(DatabaseIO.getProductByCategory((String)category.getSelectedItem()));
-		ProductDropDownContent();
-		//date chooser
-		dateChooser = new JDateChooser(Calendar.getInstance().getTime());
-
-		quantity = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
-		// left align it
-		JSpinner.DefaultEditor spinnerEditor = (JSpinner.DefaultEditor)quantity.getEditor();
-		spinnerEditor.getTextField().setHorizontalAlignment(JTextField.LEADING);
-
-		addButton = new Button("ADD");
-		clearButton = new Button("CLEAR");
-
-		AddButtonFunction();
-		ClearButtonFunction();
 	}
 }
