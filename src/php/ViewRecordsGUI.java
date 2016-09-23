@@ -34,7 +34,7 @@ public class ViewRecordsGUI extends JPanel {
 		table.setAutoCreateRowSorter(true);
 	}
 
-	public void fillTableModel()
+	private void fillTableModel()
 	{
 		if (numberOfSales != DatabaseIO.saleList.size())
 		{

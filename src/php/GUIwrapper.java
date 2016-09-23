@@ -24,6 +24,17 @@ public class GUIwrapper extends JPanel {
 
 		loginGUI.LoginButtonFunction(this, contentLabel);
 	}
+	
+	private JTabbedPane childTabbedPane()
+	{
+		
+		JTabbedPane cPane = new JTabbedPane();
+		
+		cPane.addTab("Weekly", null, new WeeklyReportGUI(), null);
+		cPane.addTab("Monthly", null, new MonthlyReportGUI(), null);
+		
+		return cPane;
+	}
 
 	private JTabbedPane TabbedPane() {
 		JTabbedPane tabbedPane = new JTabbedPane();
@@ -32,13 +43,10 @@ public class GUIwrapper extends JPanel {
 
 		JPanel viewrecordsGUI = new ViewRecordsGUI();
 
-		JPanel reportsGUI = new JPanel();
-		ReportsGUI reports = new ReportsGUI();
-		reports.ReportsContent(reportsGUI);
 
 		tabbedPane.addTab("Add Sales", null, addSalesGUI, null);
 		tabbedPane.addTab("View Sales", null, viewrecordsGUI, null);
-		tabbedPane.addTab("Reports", null, reportsGUI, null);
+		tabbedPane.addTab("Reports", null, childTabbedPane(), null);
 
 		return tabbedPane;
 	}
