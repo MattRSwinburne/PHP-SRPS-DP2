@@ -31,6 +31,8 @@ public class AddSalesRecordGUI extends JPanel {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
+		JLabel addSalesLabel = new JLabel("Add a Sales Record");
+
 		JLabel categoryLabel = new JLabel("Category");
 		JLabel productLabel = new JLabel("Product");
 		JLabel dateLabel = new JLabel("Date");
@@ -43,7 +45,8 @@ public class AddSalesRecordGUI extends JPanel {
 						.addComponent(productLabel)
 						.addComponent(dateLabel)
 						.addComponent(quantityLabel))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+						.addComponent(addSalesLabel)
 						.addComponent(category)
 						.addComponent(productBox)
 						.addComponent(dateChooser)
@@ -54,6 +57,7 @@ public class AddSalesRecordGUI extends JPanel {
 				);
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
+				.addComponent(addSalesLabel)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 						.addComponent(categoryLabel)
 						.addComponent(category))
@@ -100,7 +104,7 @@ public class AddSalesRecordGUI extends JPanel {
 					JOptionPane.showMessageDialog(null, "There is not enough stock available for this purchase");
 					inputError = true;
 				}
-				
+
 				if (!inputError)
 				{
 					java.sql.Date sqlDate = new java.sql.Date(dateChooser.getDate().getTime());

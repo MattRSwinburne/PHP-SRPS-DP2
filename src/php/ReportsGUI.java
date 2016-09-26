@@ -80,8 +80,8 @@ public class ReportsGUI {
 
 			public void actionPerformed(ActionEvent arg0) {
 				
-				PrintFunction output = new PrintFunction();
-				output.create(null);
+				//PrintFunction output = new PrintFunction();
+				//output.create(null);
 				//output.openFile();
 				//output.addRecords();
 				//output.closeFile();

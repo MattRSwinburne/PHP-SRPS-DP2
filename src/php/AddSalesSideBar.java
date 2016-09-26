@@ -16,7 +16,6 @@ public class AddSalesSideBar extends SideBarWrapper {
 	Button modifyStock;
 
 	JPanel cards;
-	JPanel headings;
 
 	final String addSalesLabel = "Add a Sales Record";
 	final String addProductLabel = "Add a Product";
@@ -37,17 +36,6 @@ public class AddSalesSideBar extends SideBarWrapper {
 		cards.add(ModifyProduct, modifyProductLabel);
 		cards.add(ModifyStock, modifyStockLabel);
 		return cards;
-	}
-
-	protected JPanel PageHeadings()
-	{
-		headings = new JPanel(new CardLayout());
-		headings.add(new JLabel(addSalesLabel, SwingConstants.CENTER), addSalesLabel);
-		headings.add(new JLabel(addProductLabel, SwingConstants.CENTER), addProductLabel);
-		headings.add(new JLabel(modifyProductLabel, SwingConstants.CENTER), modifyProductLabel);
-		headings.add(new JLabel(modifyStockLabel, SwingConstants.CENTER), modifyStockLabel);
-
-		return headings;
 	}
 
 	protected void GenerateButtons()
@@ -76,8 +64,6 @@ public class AddSalesSideBar extends SideBarWrapper {
 			{
 				CardLayout cl = (CardLayout)cards.getLayout();
 				cl.show(cards, addSalesLabel);
-				cl = (CardLayout)headings.getLayout();
-				cl.show(headings, addSalesLabel);
 			}
 		});
 	}
@@ -90,8 +76,6 @@ public class AddSalesSideBar extends SideBarWrapper {
 			{
 				CardLayout cl = (CardLayout)cards.getLayout();
 				cl.show(cards, addProductLabel);
-				cl = (CardLayout)headings.getLayout();
-				cl.show(headings, addProductLabel);
 			}
 		});
 	}
@@ -104,8 +88,6 @@ public class AddSalesSideBar extends SideBarWrapper {
 			{
 				CardLayout cl = (CardLayout)cards.getLayout();
 				cl.show(cards, modifyProductLabel);
-				cl = (CardLayout)headings.getLayout();
-				cl.show(headings, modifyProductLabel);
 			}
 		});
 	}
@@ -118,8 +100,6 @@ public class AddSalesSideBar extends SideBarWrapper {
 			{
 				CardLayout cl = (CardLayout)cards.getLayout();
 				cl.show(cards, modifyStockLabel);
-				cl = (CardLayout)headings.getLayout();
-				cl.show(headings, modifyStockLabel);
 			}
 		});
 	}
