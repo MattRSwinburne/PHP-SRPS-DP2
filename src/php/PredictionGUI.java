@@ -3,6 +3,8 @@ package php;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
+
 import javax.swing.*;
 
 public class PredictionGUI extends JPanel
@@ -13,6 +15,53 @@ public class PredictionGUI extends JPanel
 	JPanel drawArea;
 
 	Product product;
+	Map<String, Integer> Week1Sales;
+	Map<String, Integer> Week2Sales;
+	Map<String, Integer> Week3Sales;
+	Integer prediction;
+
+	private void MakePrediction()
+	{
+		
+	}
+	
+	private void FillWeeklySalesList()
+	{
+		for (Product aProduct : DatabaseIO.productList)
+		{
+			Week1Sales.put(aProduct.getProductName(), 0);
+			Week2Sales.put(aProduct.getProductName(), 0);
+			Week3Sales.put(aProduct.getProductName(), 0);
+		}
+
+		Calendar week1 = (Calendar)Calendar.getInstance();
+		Calendar week2 = (Calendar)week1.clone();
+		Calendar week3 = (Calendar)week1.clone();
+		week1.add(Calendar.WEEK_OF_YEAR, -3);
+		week2.add(Calendar.WEEK_OF_YEAR, -2);
+		week3.add(Calendar.WEEK_OF_YEAR, -1);
+		
+		for (Sale sale : DatabaseIO.saleList)
+		{
+			Calendar saleDate = new GregorianCalendar();
+			saleDate.setTime(sale.getSaleDate());
+			if (saleDate.after(week1) && saleDate.before(week2))
+			{
+				Integer temp = Week1Sales.get(sale.productName);
+				Week1Sales.put(sale.productName, temp+1);
+			}
+			else if (saleDate.after(week2) && saleDate.before(week3))
+			{
+				Integer temp = Week2Sales.get(sale.productName);
+				Week2Sales.put(sale.productName, temp+1);
+			}
+			else if (saleDate.after(week3))
+			{
+				Integer temp = Week3Sales.get(sale.productName);
+				Week3Sales.put(sale.productName, temp+1);
+			}
+		}
+	}
 
 	public PredictionGUI()
 	{
@@ -20,38 +69,38 @@ public class PredictionGUI extends JPanel
 
 		JLabel categoryLabel = new JLabel("Category", SwingConstants.CENTER);
 		JLabel productLabel = new JLabel("Product", SwingConstants.CENTER);
-		
+
 		setLayout(new GridBagLayout());
 		GridBagConstraints constraints = new GridBagConstraints();
-		
+
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.weightx = 0.1;
 		constraints.ipadx = 10;
 		add(categoryLabel,constraints);
-		
+
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.gridx = 1;
 		constraints.gridy = 0;
 		constraints.weightx = 1;
 		constraints.ipadx = 0;
 		add(categoryBox,constraints);
-		
+
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.gridx = 2;
 		constraints.gridy = 0;
 		constraints.weightx = 0.1;
 		constraints.ipadx = 10;
 		add(productLabel,constraints);
-		
+
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		constraints.gridx = 3;
 		constraints.gridy = 0;
 		constraints.weightx = 1;
 		constraints.ipadx = 0;
 		add(productBox,constraints);
-		
+
 		constraints.fill = GridBagConstraints.BOTH;
 		constraints.gridx = 0;
 		constraints.gridy = 1;
@@ -66,12 +115,7 @@ public class PredictionGUI extends JPanel
 	{
 		int XOffset;
 		int YOffset;
-		
-		DrawArea()
-		{
-			
-		}
-		
+
 		public void paint (Graphics g)
 		{
 			XOffset = getWidth()/10;
@@ -93,8 +137,8 @@ public class PredictionGUI extends JPanel
 		{
 			Color c = g.getColor();
 			g.setColor(Color.BLACK);
-			g.drawLine(XOffset, YOffset, XOffset, getHeight()-YOffset-20);
-			g.drawLine(XOffset, getHeight()-YOffset-20, getWidth()-XOffset, getHeight()-YOffset-20);
+			g.drawLine(XOffset, YOffset, XOffset, getHeight()-YOffset);
+			g.drawLine(XOffset, getHeight()-YOffset, getWidth()-XOffset, getHeight()-YOffset);
 			g.setColor(c);
 		}
 	}
@@ -128,6 +172,10 @@ public class PredictionGUI extends JPanel
 
 	private void Initialize()
 	{
+		Week1Sales = new HashMap<>();
+		Week2Sales = new HashMap<>();
+		Week3Sales = new HashMap<>();
+		FillWeeklySalesList();
 		categoryBox = new JComboBox<String>(DatabaseIO.getCategories());
 		CategoryBoxContentChangeListener();
 
