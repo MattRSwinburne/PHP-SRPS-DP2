@@ -15,9 +15,9 @@ public class PredictionGUI extends JPanel
 	JPanel drawArea;
 
 	Product product;
-	Map<String, Integer> Week1Sales;
-	Map<String, Integer> Week2Sales;
-	Map<String, Integer> Week3Sales;
+	Map<String, Integer> Month1Sales;
+	Map<String, Integer> Month2Sales;
+	Map<String, Integer> Month3Sales;
 	Map<String, Integer> prediction;
 
 	private void MakePrediction()
@@ -25,47 +25,47 @@ public class PredictionGUI extends JPanel
 		for (Product p : DatabaseIO.productList)
 		{
 			Integer deltaWeek1Week2, deltaWeek2Week3, deltaAverage;
-			deltaWeek1Week2 = Week2Sales.get(p.productName) - Week1Sales.get(p.productName);
-			deltaWeek2Week3 = Week3Sales.get(p.productName) - Week2Sales.get(p.productName);
+			deltaWeek1Week2 = Month2Sales.get(p.productName) - Month1Sales.get(p.productName);
+			deltaWeek2Week3 = Month3Sales.get(p.productName) - Month2Sales.get(p.productName);
 			deltaAverage = (int)Math.ceil((deltaWeek1Week2 + deltaWeek2Week3) / 2.0);
 			prediction.put(p.productName, deltaAverage);
 		}
 	}
-	
+
 	private void FillWeeklySalesList()
 	{
 		for (Product aProduct : DatabaseIO.productList)
 		{
-			Week1Sales.put(aProduct.getProductName(), 0);
-			Week2Sales.put(aProduct.getProductName(), 0);
-			Week3Sales.put(aProduct.getProductName(), 0);
+			Month1Sales.put(aProduct.getProductName(), 0);
+			Month2Sales.put(aProduct.getProductName(), 0);
+			Month3Sales.put(aProduct.getProductName(), 0);
 		}
 
-		Calendar week1 = (Calendar)Calendar.getInstance();
-		Calendar week2 = (Calendar)week1.clone();
-		Calendar week3 = (Calendar)week1.clone();
-		week1.add(Calendar.WEEK_OF_YEAR, -3);
-		week2.add(Calendar.WEEK_OF_YEAR, -2);
-		week3.add(Calendar.WEEK_OF_YEAR, -1);
-		
+		Calendar month1 = (Calendar)Calendar.getInstance();
+		Calendar month2 = (Calendar)month1.clone();
+		Calendar month3 = (Calendar)month1.clone();
+		month1.add(Calendar.MONTH, -3);
+		month2.add(Calendar.MONTH, -2);
+		month3.add(Calendar.MONTH, -1);
+
 		for (Sale sale : DatabaseIO.saleList)
 		{
 			Calendar saleDate = new GregorianCalendar();
 			saleDate.setTime(sale.getSaleDate());
-			if (saleDate.after(week1) && saleDate.before(week2))
+			if (saleDate.after(month1) && saleDate.before(month1))
 			{
-				Integer temp = Week1Sales.get(sale.productName);
-				Week1Sales.put(sale.productName, temp+1);
+				Integer temp = Month1Sales.get(sale.productName);
+				Month1Sales.put(sale.productName, temp+1);
 			}
-			else if (saleDate.after(week2) && saleDate.before(week3))
+			else if (saleDate.after(month2) && saleDate.before(month3))
 			{
-				Integer temp = Week2Sales.get(sale.productName);
-				Week2Sales.put(sale.productName, temp+1);
+				Integer temp = Month2Sales.get(sale.productName);
+				Month2Sales.put(sale.productName, temp+1);
 			}
-			else if (saleDate.after(week3))
+			else if (saleDate.after(month3))
 			{
-				Integer temp = Week3Sales.get(sale.productName);
-				Week3Sales.put(sale.productName, temp+1);
+				Integer temp = Month3Sales.get(sale.productName);
+				Month3Sales.put(sale.productName, temp+1);
 			}
 		}
 	}
@@ -125,12 +125,15 @@ public class PredictionGUI extends JPanel
 		int XArea;
 		int YArea;
 
+		int charHeight = 15;
+		int charWidth = 5;
+
 		public void paint (Graphics g)
 		{
 			XOffset = getWidth()/10;
 			YOffset = getHeight()/10;
 			XArea = getWidth() - (2 * XOffset);
-			YArea = getHeight() - (2 * YOffset);
+			YArea = getHeight() - (2 * YOffset) - 20;
 
 			g.clearRect(0, 0, getWidth(), getHeight());
 			drawBarGraph(g);
@@ -140,7 +143,7 @@ public class PredictionGUI extends JPanel
 		public void drawBarGraph(Graphics g)
 		{
 			drawAxis(g);
-			
+
 		}
 
 		//Draw the axes for the graph
@@ -148,13 +151,47 @@ public class PredictionGUI extends JPanel
 		{
 			Color c = g.getColor();
 			g.setColor(Color.BLACK);
-			g.drawLine(XOffset, YOffset, XOffset, getHeight()-YOffset);
-			g.drawLine(XOffset, getHeight()-YOffset, getWidth()-XOffset, getHeight()-YOffset);
+			g.drawLine(XOffset, YOffset, XOffset, getHeight()-YOffset - 20);
+			g.drawLine(XOffset, getHeight()-YOffset - 20, getWidth()-XOffset, getHeight()-YOffset - 20);
+			// x axis labels
 			for (int i = 1; i < 5; i++)
-			{
-				g.drawLine(XOffset + (XArea/5) * i, getHeight()-YOffset, XOffset + (XArea/5) * i, getHeight()-YOffset + 20);
-			}
+				g.drawLine(XOffset + (XArea/5) * i, getHeight()-YOffset - 20, XOffset + (XArea/5) * i, getHeight()-YOffset);
+			for (int i = 1; i < 4; i++)
+				g.drawString("Month " + i, XOffset + (XArea/5) * i - charWidth * 3, getHeight()-YOffset + charHeight);
+			g.drawString("Prediction", XOffset + (XArea/5) * 4 - charWidth * 5, getHeight()-YOffset + charHeight);
+			// y axis labels
+			Integer YRange = FindMostSales();
+			if (YRange == 0)
+				YRange = 1;
+			Integer month1 = Month1Sales.get(product.productName);
+			Integer month2 = Month2Sales.get(product.productName);
+			Integer month3 = Month3Sales.get(product.productName);
+			Integer pred = prediction.get(product.productName);
+		
+			g.drawLine(XOffset, YOffset + (YRange-month1)*YArea/YRange, XOffset - 10, YOffset + (YRange-month1)*YArea/YRange);
+			g.drawString(month1.toString(), XOffset - 10 - month1.toString().length()*charWidth, YOffset + (YRange-month1)*YArea/YRange + 3);
+			
+			g.drawLine(XOffset, YOffset + (YRange-month2)*YArea/YRange, XOffset - 10, YOffset + (YRange-month2)*YArea/YRange);
+			
+			g.drawLine(XOffset, YOffset + (YRange-month3)*YArea/YRange, XOffset - 10, YOffset + (YRange-month3)*YArea/YRange);
+			
+			g.drawLine(XOffset, YOffset + (YRange-pred)*YArea/YRange, XOffset - 10, YOffset + (YRange-pred)*YArea/YRange);
+			
 			g.setColor(c);
+		}
+		private Integer FindMostSales()
+		{
+			Integer most = 0;
+
+			most = Month1Sales.get(product.productName);
+			if (most < Month2Sales.get(product.productName))
+				most = Month2Sales.get(product.productName);
+			if (most < Month3Sales.get(product.productName))
+				most = Month3Sales.get(product.productName);
+			if (most < prediction.get(product.productName))
+				most = prediction.get(product.productName);
+
+			return most;
 		}
 	}
 
@@ -187,9 +224,9 @@ public class PredictionGUI extends JPanel
 
 	private void Initialize()
 	{
-		Week1Sales = new HashMap<>();
-		Week2Sales = new HashMap<>();
-		Week3Sales = new HashMap<>();
+		Month1Sales = new HashMap<>();
+		Month2Sales = new HashMap<>();
+		Month3Sales = new HashMap<>();
 		prediction = new HashMap<>();
 		FillWeeklySalesList();
 		MakePrediction();
@@ -198,6 +235,8 @@ public class PredictionGUI extends JPanel
 
 		productBox = new JComboBox<String>(DatabaseIO.getProductByCategory((String)categoryBox.getSelectedItem()));
 		ProductBoxContentChangeListener();
+		
+		product = DatabaseIO.getProduct((String)productBox.getSelectedItem());
 
 		drawArea = new DrawArea();
 	}
