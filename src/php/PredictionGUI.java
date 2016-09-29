@@ -18,11 +18,18 @@ public class PredictionGUI extends JPanel
 	Map<String, Integer> Week1Sales;
 	Map<String, Integer> Week2Sales;
 	Map<String, Integer> Week3Sales;
-	Integer prediction;
+	Map<String, Integer> prediction;
 
 	private void MakePrediction()
 	{
-		
+		for (Product p : DatabaseIO.productList)
+		{
+			Integer deltaWeek1Week2, deltaWeek2Week3, deltaAverage;
+			deltaWeek1Week2 = Week2Sales.get(p.productName) - Week1Sales.get(p.productName);
+			deltaWeek2Week3 = Week3Sales.get(p.productName) - Week2Sales.get(p.productName);
+			deltaAverage = (int)Math.ceil((deltaWeek1Week2 + deltaWeek2Week3) / 2.0);
+			prediction.put(p.productName, deltaAverage);
+		}
 	}
 	
 	private void FillWeeklySalesList()
@@ -115,11 +122,15 @@ public class PredictionGUI extends JPanel
 	{
 		int XOffset;
 		int YOffset;
+		int XArea;
+		int YArea;
 
 		public void paint (Graphics g)
 		{
 			XOffset = getWidth()/10;
 			YOffset = getHeight()/10;
+			XArea = getWidth() - (2 * XOffset);
+			YArea = getHeight() - (2 * YOffset);
 
 			g.clearRect(0, 0, getWidth(), getHeight());
 			drawBarGraph(g);
@@ -128,17 +139,21 @@ public class PredictionGUI extends JPanel
 		//Draw the bar graph
 		public void drawBarGraph(Graphics g)
 		{
-			drawAxes(g);
+			drawAxis(g);
 			
 		}
 
 		//Draw the axes for the graph
-		public void drawAxes (Graphics g)
+		public void drawAxis (Graphics g)
 		{
 			Color c = g.getColor();
 			g.setColor(Color.BLACK);
 			g.drawLine(XOffset, YOffset, XOffset, getHeight()-YOffset);
 			g.drawLine(XOffset, getHeight()-YOffset, getWidth()-XOffset, getHeight()-YOffset);
+			for (int i = 1; i < 5; i++)
+			{
+				g.drawLine(XOffset + (XArea/5) * i, getHeight()-YOffset, XOffset + (XArea/5) * i, getHeight()-YOffset + 20);
+			}
 			g.setColor(c);
 		}
 	}
@@ -175,7 +190,9 @@ public class PredictionGUI extends JPanel
 		Week1Sales = new HashMap<>();
 		Week2Sales = new HashMap<>();
 		Week3Sales = new HashMap<>();
+		prediction = new HashMap<>();
 		FillWeeklySalesList();
+		MakePrediction();
 		categoryBox = new JComboBox<String>(DatabaseIO.getCategories());
 		CategoryBoxContentChangeListener();
 
