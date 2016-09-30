@@ -125,8 +125,28 @@ public class PredictionGUI extends JPanel
 		int XArea;
 		int YArea;
 
-		int charHeight = 15;
-		int charWidth = 5;
+		int charHeight = 12;
+		int charWidth = 7;
+
+		Integer YRange, month1, month2, month3, pred;
+
+		Integer Ymonth1, Ymonth2, Ymonth3, Ypred;
+
+		private void UpdateDisplayVariables()
+		{
+			YRange = FindMostSales();
+			if (YRange == 0)
+				YRange = 1;
+			month1 = Month1Sales.get(product.productName);
+			month2 = Month2Sales.get(product.productName);
+			month3 = Month3Sales.get(product.productName);
+			pred = prediction.get(product.productName);
+
+			Ymonth1 = YOffset + (YRange-month1)*YArea/YRange;
+			Ymonth2 = YOffset + (YRange-month2)*YArea/YRange;
+			Ymonth3 = YOffset + (YRange-month3)*YArea/YRange;
+			Ypred = YOffset + (YRange-pred)*YArea/YRange;
+		}
 
 		public void paint (Graphics g)
 		{
@@ -134,51 +154,73 @@ public class PredictionGUI extends JPanel
 			YOffset = getHeight()/10;
 			XArea = getWidth() - (2 * XOffset);
 			YArea = getHeight() - (2 * YOffset) - 20;
-
+			UpdateDisplayVariables();
 			g.clearRect(0, 0, getWidth(), getHeight());
-			drawBarGraph(g);
+			DrawBarGraph(g);
 		}
 
 		//Draw the bar graph
-		public void drawBarGraph(Graphics g)
+		public void DrawBarGraph(Graphics g)
 		{
-			drawAxis(g);
-
+			DrawBars(g);
+			DrawAxis(g);
 		}
 
 		//Draw the axes for the graph
-		public void drawAxis (Graphics g)
+		public void DrawAxis (Graphics g)
 		{
 			Color c = g.getColor();
 			g.setColor(Color.BLACK);
-			g.drawLine(XOffset, YOffset, XOffset, getHeight()-YOffset - 20);
-			g.drawLine(XOffset, getHeight()-YOffset - 20, getWidth()-XOffset, getHeight()-YOffset - 20);
+
+			g.drawLine(XOffset, YOffset, XOffset, YOffset+YArea);
+			g.drawLine(XOffset, YOffset+YArea, XOffset+XArea, YOffset+YArea);
 			// x axis labels
 			for (int i = 1; i < 5; i++)
-				g.drawLine(XOffset + (XArea/5) * i, getHeight()-YOffset - 20, XOffset + (XArea/5) * i, getHeight()-YOffset);
+				g.drawLine(XOffset + (XArea/5) * i, YOffset+YArea, XOffset + (XArea/5) * i, getHeight()-YOffset);
 			for (int i = 1; i < 4; i++)
 				g.drawString("Month " + i, XOffset + (XArea/5) * i - charWidth * 3, getHeight()-YOffset + charHeight);
-			g.drawString("Prediction", XOffset + (XArea/5) * 4 - charWidth * 5, getHeight()-YOffset + charHeight);
+			g.drawString("Prediction", XOffset + (XArea/5) * 4 - charWidth * 4, getHeight()-YOffset + charHeight);
+
 			// y axis labels
-			Integer YRange = FindMostSales();
-			if (YRange == 0)
-				YRange = 1;
-			Integer month1 = Month1Sales.get(product.productName);
-			Integer month2 = Month2Sales.get(product.productName);
-			Integer month3 = Month3Sales.get(product.productName);
-			Integer pred = prediction.get(product.productName);
-		
-			g.drawLine(XOffset, YOffset + (YRange-month1)*YArea/YRange, XOffset - 10, YOffset + (YRange-month1)*YArea/YRange);
-			g.drawString(month1.toString(), XOffset - 10 - month1.toString().length()*charWidth, YOffset + (YRange-month1)*YArea/YRange + 3);
-			
-			g.drawLine(XOffset, YOffset + (YRange-month2)*YArea/YRange, XOffset - 10, YOffset + (YRange-month2)*YArea/YRange);
-			
-			g.drawLine(XOffset, YOffset + (YRange-month3)*YArea/YRange, XOffset - 10, YOffset + (YRange-month3)*YArea/YRange);
-			
-			g.drawLine(XOffset, YOffset + (YRange-pred)*YArea/YRange, XOffset - 10, YOffset + (YRange-pred)*YArea/YRange);
-			
+			g.drawLine(XOffset, Ymonth1, XOffset - 10, Ymonth1);
+			g.drawString(month1.toString(), XOffset - 10 - month1.toString().length()*charWidth, Ymonth1 + charHeight/2);
+
+			g.drawLine(XOffset, Ymonth2, XOffset - 10, Ymonth2);
+			g.drawString(month2.toString(), XOffset - 10 - month2.toString().length()*charWidth, Ymonth2 + charHeight/2);
+
+			g.drawLine(XOffset, Ymonth3, XOffset - 10, Ymonth3);
+			g.drawString(month3.toString(), XOffset - 10 - month3.toString().length()*charWidth, Ymonth3 + charHeight/2);
+
+			g.drawLine(XOffset, Ypred, XOffset - 10, Ypred);
+			g.drawString(pred.toString(), XOffset - 10 - pred.toString().length()*charWidth, Ypred + charHeight/2);
+
 			g.setColor(c);
 		}
+
+		private void DrawBars(Graphics g)
+		{
+			Color c = g.getColor();
+			g.setColor(Color.ORANGE);
+
+			g.fillRect(XOffset+(XArea/10), Ymonth1, XArea/5, month1*YArea/YRange);
+			g.fillRect(XOffset+(XArea/10)+(XArea/5), Ymonth2, XArea/5, month2*YArea/YRange);
+			g.fillRect(XOffset+(XArea/10)+(XArea/5)*2, Ymonth3, XArea/5, month3*YArea/YRange);
+			g.fillRect(XOffset+(XArea/10)+(XArea/5)*3, Ypred, XArea/5, pred*YArea/YRange);
+			g.setColor(Color.RED);
+			g.drawRect(XOffset+(XArea/10), Ymonth1, XArea/5, month1*YArea/YRange);
+			g.drawRect(XOffset+(XArea/10)+(XArea/5), Ymonth2, XArea/5, month2*YArea/YRange);
+			g.drawRect(XOffset+(XArea/10)+(XArea/5)*2, Ymonth3, XArea/5, month3*YArea/YRange);
+			g.drawRect(XOffset+(XArea/10)+(XArea/5)*3, Ypred, XArea/5, pred*YArea/YRange);
+
+			g.setColor(Color.BLACK);
+			g.drawString(month1.toString(), XOffset+(XArea/5)-month1.toString().length()*charWidth/2, Ymonth1-5);
+			g.drawString(month2.toString(), XOffset+(XArea/5)*2-month2.toString().length()*charWidth/2, Ymonth2-5);
+			g.drawString(month3.toString(), XOffset+(XArea/5)*3-month3.toString().length()*charWidth/2, Ymonth3-5);
+			g.drawString(pred.toString(), XOffset+(XArea/5)*4-pred.toString().length()*charWidth/2, Ypred-5);
+
+			g.setColor(c);
+		}
+
 		private Integer FindMostSales()
 		{
 			Integer most = 0;
@@ -235,7 +277,7 @@ public class PredictionGUI extends JPanel
 
 		productBox = new JComboBox<String>(DatabaseIO.getProductByCategory((String)categoryBox.getSelectedItem()));
 		ProductBoxContentChangeListener();
-		
+
 		product = DatabaseIO.getProduct((String)productBox.getSelectedItem());
 
 		drawArea = new DrawArea();
