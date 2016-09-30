@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 public class MonthlyReportGUI extends JPanel
@@ -63,10 +64,13 @@ public class MonthlyReportGUI extends JPanel
 				public void actionPerformed(ActionEvent ae) {
 
 					JFileChooser jfc = new JFileChooser();
-					int confirmed = jfc.showDialog(null, "CSV File");
+					FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv", "CSV");
+					jfc.setFileFilter(filter);
+					int confirmed = jfc.showDialog(null, "Save CSV");
 					
 					if(confirmed == JFileChooser.APPROVE_OPTION)
 					{
+						
 						
 						CSVGenerator cg = new CSVGenerator(jfc.getSelectedFile().getAbsolutePath(), 1);
 						try {
