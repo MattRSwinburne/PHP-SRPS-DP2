@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 public class WeeklyReportGUI extends JPanel
@@ -29,6 +30,8 @@ public class WeeklyReportGUI extends JPanel
 	private JButton genButton;
 	private ReportsGatherer rg;
 	private ArrayList<HashMap<String, Integer>> wkRpt;
+	private JPanel panel;
+	private JButton btnSavePDF;
 	
 	public WeeklyReportGUI()
 	{
@@ -48,13 +51,14 @@ public class WeeklyReportGUI extends JPanel
 		fillTableModel();
 		SalesContentChangeListener();
 		
-		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, BorderLayout.CENTER);
-		scrollPane.setViewportView(table);
-		table.setModel(model);
-		table.setAutoCreateRowSorter(true);
+		panel = new JPanel();
+		add(panel, BorderLayout.SOUTH);
 		
 		genButton = new JButton("Generate CSV");
+		panel.add(genButton);
+		
+		btnSavePDF = new JButton("Save PDF");
+		panel.add(btnSavePDF);
 		genButton.addActionListener(
 			new ActionListener()
 			{
@@ -82,7 +86,37 @@ public class WeeklyReportGUI extends JPanel
 			}
 				
 		);
-		add(genButton, BorderLayout.SOUTH);
+		
+		btnSavePDF.addActionListener(
+				new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent ae) 
+					{
+						JFileChooser jfc = new JFileChooser();
+						FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf", "PDF");
+						jfc.setFileFilter(filter);
+						int confirmed = jfc.showDialog(null, "Save PDF");
+						
+						if(confirmed == JFileChooser.APPROVE_OPTION)
+						{
+							PDFOperations pdf = new PDFOperations(jfc.getSelectedFile().getAbsolutePath());
+							try {
+								pdf.createWeeklySalesPDF(table);
+							} catch (Exception e) {
+								JOptionPane.showMessageDialog(null, "Error Saving PDF", "Error", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					}
+				}
+				
+				);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		add(scrollPane, BorderLayout.CENTER);
+		scrollPane.setViewportView(table);
+		table.setModel(model);
+		table.setAutoCreateRowSorter(true);
 		
 	}
 	

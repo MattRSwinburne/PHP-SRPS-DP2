@@ -30,6 +30,8 @@ public class MonthlyReportGUI extends JPanel
 	private JButton genButton;
 	private ReportsGatherer rg;
 	private ArrayList<HashMap<String, Integer>> mnRpt;
+	private JPanel buttonPanel;
+	private JButton btnSavePDF;
 	
 	public MonthlyReportGUI()
 	{
@@ -49,13 +51,14 @@ public class MonthlyReportGUI extends JPanel
 		fillTableModel();
 		SalesContentChangeListener();
 		
-		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, BorderLayout.CENTER);
-		scrollPane.setViewportView(table);
-		table.setModel(model);
-		table.setAutoCreateRowSorter(true);
+		buttonPanel = new JPanel();
+		add(buttonPanel, BorderLayout.SOUTH);
 		
 		genButton = new JButton("Generate CSV");
+		buttonPanel.add(genButton);
+		
+		btnSavePDF = new JButton("Save PDF");
+		buttonPanel.add(btnSavePDF);
 		genButton.addActionListener(
 			new ActionListener()
 			{
@@ -69,9 +72,7 @@ public class MonthlyReportGUI extends JPanel
 					int confirmed = jfc.showDialog(null, "Save CSV");
 					
 					if(confirmed == JFileChooser.APPROVE_OPTION)
-					{
-						
-						
+					{	
 						CSVGenerator cg = new CSVGenerator(jfc.getSelectedFile().getAbsolutePath(), 1);
 						try {
 							cg.generate(mnRpt);
@@ -86,7 +87,38 @@ public class MonthlyReportGUI extends JPanel
 			}
 				
 		);
-		add(genButton, BorderLayout.SOUTH);
+		btnSavePDF.addActionListener(
+				new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent ae) 
+					{
+						JFileChooser jfc = new JFileChooser();
+						FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf", "PDF");
+						jfc.setFileFilter(filter);
+						int confirmed = jfc.showDialog(null, "Save PDF");
+						
+						if(confirmed == JFileChooser.APPROVE_OPTION)
+						{
+							PDFOperations pdf = new PDFOperations(jfc.getSelectedFile().getAbsolutePath());
+							try {
+								pdf.createMonthlySalesPDF(table);
+							} catch (Exception e) {
+								JOptionPane.showMessageDialog(null, "Error Saving PDF", "Error", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					}
+				}
+				
+				
+				
+				);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		add(scrollPane, BorderLayout.CENTER);
+		scrollPane.setViewportView(table);
+		table.setModel(model);
+		table.setAutoCreateRowSorter(true);
 		
 	}
 	
