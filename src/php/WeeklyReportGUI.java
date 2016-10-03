@@ -32,6 +32,7 @@ public class WeeklyReportGUI extends JPanel
 	private ArrayList<HashMap<String, Integer>> wkRpt;
 	private JPanel panel;
 	private JButton btnSavePDF;
+	private JButton btnPrint;
 	
 	public WeeklyReportGUI()
 	{
@@ -59,6 +60,10 @@ public class WeeklyReportGUI extends JPanel
 		
 		btnSavePDF = new JButton("Save PDF");
 		panel.add(btnSavePDF);
+		
+		btnPrint = new JButton("Print");
+		panel.add(btnPrint);
+		
 		genButton.addActionListener(
 			new ActionListener()
 			{
@@ -111,6 +116,14 @@ public class WeeklyReportGUI extends JPanel
 				}
 				
 				);
+		
+		btnPrint.addActionListener(
+				new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent arg0) {
+						//implement function here.
+					}
+			});
 		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
