@@ -121,7 +121,11 @@ public class WeeklyReportGUI extends JPanel
 				new ActionListener() 
 				{
 					public void actionPerformed(ActionEvent arg0) {
-						//implement function here.
+						try {
+								table.print(JTable.PrintMode.NORMAL);
+						} catch (Exception e) {
+							JOptionPane.showMessageDialog(null, "Error sending to printer", "Error", JOptionPane.ERROR_MESSAGE); 
+						}
 					}
 			});
 		
