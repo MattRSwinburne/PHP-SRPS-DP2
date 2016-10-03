@@ -10,6 +10,7 @@ import java.util.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class PredictionGUI extends JPanel
 {
@@ -288,11 +289,20 @@ public class PredictionGUI extends JPanel
 			{
 				BufferedImage image = new BufferedImage(drawArea.getWidth(), drawArea.getHeight(), BufferedImage.TYPE_INT_ARGB);
 				drawArea.paint(image.getGraphics());
-				try {
-					ImageIO.write(image, "PNG", new File(product.productName + ".png"));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				
+				JFileChooser jfc = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf", "PDF");
+				jfc.setFileFilter(filter);
+				int confirmed = jfc.showDialog(null, "Save PDF");
+				
+				if(confirmed == JFileChooser.APPROVE_OPTION)
+				{
+					PDFOperations pdf = new PDFOperations(jfc.getSelectedFile().getAbsolutePath());
+					try {
+						pdf.createPredictionPDF(image);
+					} catch (Exception pdfError) {
+						JOptionPane.showMessageDialog(null, "Error Saving PDF", "Error", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});
