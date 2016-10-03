@@ -18,6 +18,7 @@ public class PredictionGUI extends JPanel
 	JComboBox<String> productBox;
 
 	Button pdfButton;
+	Button printButton;
 
 	JPanel drawArea;
 
@@ -122,6 +123,13 @@ public class PredictionGUI extends JPanel
 		constraints.weightx = 0;
 		constraints.ipadx = 0;
 		add(pdfButton,constraints);
+		
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.gridx = 5;
+		constraints.gridy = 0;
+		constraints.weightx = 0;
+		constraints.ipadx = 0;
+		add(printButton,constraints);
 
 		constraints.fill = GridBagConstraints.BOTH;
 		constraints.gridx = 0;
@@ -307,6 +315,17 @@ public class PredictionGUI extends JPanel
 			}
 		});
 	}
+	
+	private void PrintButtonListener()
+	{
+		printButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				//print function
+			}
+		});
+	}
 
 	private void Initialize()
 	{
@@ -324,6 +343,9 @@ public class PredictionGUI extends JPanel
 
 		pdfButton = new Button("Save as PDF");
 		PDFButtonListener();
+		
+		printButton = new Button("Print");
+		PrintButtonListener();
 
 		product = DatabaseIO.getProduct((String)productBox.getSelectedItem());
 
