@@ -172,7 +172,7 @@ public class PredictionGUI extends JPanel
 			UpdateDisplayVariables();
 			g.setColor(Color.WHITE);
 			g.fillRect(0, 0, getWidth(), getHeight());
-			//g.clearRect(0, 0, getWidth(), getHeight());
+
 			DrawBarGraph(g);
 		}
 
@@ -289,17 +289,17 @@ public class PredictionGUI extends JPanel
 			{
 				BufferedImage image = new BufferedImage(drawArea.getWidth(), drawArea.getHeight(), BufferedImage.TYPE_INT_ARGB);
 				drawArea.paint(image.getGraphics());
-				
+
 				JFileChooser jfc = new JFileChooser();
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("PDF Files", "pdf", "PDF");
 				jfc.setFileFilter(filter);
 				int confirmed = jfc.showDialog(null, "Save PDF");
-				
+
 				if(confirmed == JFileChooser.APPROVE_OPTION)
 				{
 					PDFOperations pdf = new PDFOperations(jfc.getSelectedFile().getAbsolutePath());
 					try {
-						pdf.createPredictionPDF(image);
+						pdf.createPredictionPDF(image, product.productName);
 					} catch (Exception pdfError) {
 						JOptionPane.showMessageDialog(null, "Error Saving PDF", "Error", JOptionPane.ERROR_MESSAGE);
 					}

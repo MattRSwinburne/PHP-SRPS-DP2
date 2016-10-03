@@ -113,20 +113,24 @@ public class PDFOperations {
 
 	}
 
-	public void createPredictionPDF(BufferedImage image)
+	public void createPredictionPDF(BufferedImage image, String name)
 	{
 		try {
 			Document doc = new Document();
 			PdfWriter.getInstance(doc, new FileOutputStream(filepath + ".pdf"));
 			doc.open();
 			doc.addTitle("People Health Pharmacy Sales Prediction Report");
-			
-			Paragraph preface = new Paragraph("People Health Pharmacy Sales Prediction Report"); 
+
+			Paragraph preface = new Paragraph("People Health Pharmacy Sales Prediction Report");
 			preface.setAlignment(Element.ALIGN_CENTER);
 			doc.add(preface);
-			
+
 			doc.add(Chunk.NEWLINE);
-			
+
+			Paragraph productName = new Paragraph("Product: " + name);
+			productName.setAlignment(Element.ALIGN_CENTER);
+			doc.add(productName);
+
 			// convert the buffered image to an iText image
 			try {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -138,7 +142,7 @@ public class PDFOperations {
 				ImageEx.printStackTrace();
 			}
 			doc.close();
-			
+
 		} catch (DocumentException ex) {
 			ex.printStackTrace();
 		} catch (FileNotFoundException ex) {
