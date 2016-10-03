@@ -119,10 +119,17 @@ public class MonthlyReportGUI extends JPanel
 				
 				);
 		
-		btnPrint.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//implement function
-			}
+		btnPrint.addActionListener(
+				new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) {
+						try {
+							table.print(JTable.PrintMode.NORMAL);
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, "Error sending to printer", "Error", JOptionPane.ERROR_MESSAGE); 
+					}
+						
+				}
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
