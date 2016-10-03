@@ -1,10 +1,22 @@
 package php;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Button;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.util.Calendar;
-import javax.swing.*;
+
+import javax.swing.GroupLayout;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -17,6 +29,7 @@ public class AddSalesRecordGUI extends JPanel {
 
 	JSpinner quantity;
 
+	Button importButton;
 	Button addButton;
 	Button clearButton;
 
@@ -49,6 +62,8 @@ public class AddSalesRecordGUI extends JPanel {
 						.addComponent(dateChooser)
 						.addComponent(quantity)
 						.addGroup(layout.createSequentialGroup()
+								.addComponent(importButton))
+						.addGroup(layout.createSequentialGroup()
 								.addComponent(addButton)
 								.addComponent(clearButton)))
 				);
@@ -67,11 +82,52 @@ public class AddSalesRecordGUI extends JPanel {
 						.addComponent(quantityLabel)
 						.addComponent(quantity))
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+						.addComponent(importButton))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 						.addComponent(addButton)
 						.addComponent(clearButton))
 				);
 	}
 
+	private void ImportButtonFunction()
+	{
+		
+		importButton.addActionListener(
+			new ActionListener()
+			{
+
+				@Override
+				public void actionPerformed(ActionEvent ae) 
+				{
+					
+					JFileChooser jfc = new JFileChooser();
+					int confirmed = jfc.showDialog(null, "Import");
+					
+					if(confirmed == JFileChooser.APPROVE_OPTION)
+					{
+						
+						importButton.setLabel("Importing...");
+						CSVReader csvr = new CSVReader(jfc.getSelectedFile().getAbsolutePath());
+						try {
+							csvr.readCSV();
+							JOptionPane.showMessageDialog(null, "The CSV File has been imported");
+						} catch (FileNotFoundException e) {
+							
+							JOptionPane.showMessageDialog(null, "That file was not found!");
+						}
+						
+						importButton.setLabel("Import CSV");
+						
+					}
+					
+				}
+				
+			}
+				
+		);
+		
+	}
+	
 	private void AddButtonFunction() {
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -150,9 +206,11 @@ public class AddSalesRecordGUI extends JPanel {
 		JSpinner.DefaultEditor spinnerEditor = (JSpinner.DefaultEditor)quantity.getEditor();
 		spinnerEditor.getTextField().setHorizontalAlignment(JTextField.LEADING);
 
+		importButton = new Button("Import CSV");
 		addButton = new Button("ADD");
 		clearButton = new Button("CLEAR");
 
+		ImportButtonFunction();
 		AddButtonFunction();
 		ClearButtonFunction();
 	}
