@@ -3,14 +3,20 @@ package php;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class PredictionGUI extends JPanel
 {
 	JComboBox<String> categoryBox;
 	JComboBox<String> productBox;
+
+	Button pdfButton;
 
 	JPanel drawArea;
 
@@ -24,11 +30,12 @@ public class PredictionGUI extends JPanel
 	{
 		for (Product p : DatabaseIO.productList)
 		{
-			Integer deltaWeek1Week2, deltaWeek2Week3, deltaAverage;
+			Integer deltaWeek1Week2, deltaWeek2Week3, deltaAverage, projection;
 			deltaWeek1Week2 = Month2Sales.get(p.productName) - Month1Sales.get(p.productName);
 			deltaWeek2Week3 = Month3Sales.get(p.productName) - Month2Sales.get(p.productName);
 			deltaAverage = (int)Math.ceil((deltaWeek1Week2 + deltaWeek2Week3) / 2.0);
-			prediction.put(p.productName, deltaAverage);
+			projection = Month3Sales.get(p.productName) + deltaAverage;
+			prediction.put(p.productName, projection);
 		}
 	}
 
@@ -108,10 +115,17 @@ public class PredictionGUI extends JPanel
 		constraints.ipadx = 0;
 		add(productBox,constraints);
 
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.gridx = 4;
+		constraints.gridy = 0;
+		constraints.weightx = 0;
+		constraints.ipadx = 0;
+		add(pdfButton,constraints);
+
 		constraints.fill = GridBagConstraints.BOTH;
 		constraints.gridx = 0;
 		constraints.gridy = 1;
-		constraints.gridwidth = 4;
+		constraints.gridwidth = 5;
 		constraints.weightx = 1;
 		constraints.weighty = 1;
 		constraints.ipadx = 0;
@@ -155,7 +169,9 @@ public class PredictionGUI extends JPanel
 			XArea = getWidth() - (2 * XOffset);
 			YArea = getHeight() - (2 * YOffset) - 20;
 			UpdateDisplayVariables();
-			g.clearRect(0, 0, getWidth(), getHeight());
+			g.setColor(Color.WHITE);
+			g.fillRect(0, 0, getWidth(), getHeight());
+			//g.clearRect(0, 0, getWidth(), getHeight());
 			DrawBarGraph(g);
 		}
 
@@ -264,6 +280,24 @@ public class PredictionGUI extends JPanel
 		});
 	}
 
+	private void PDFButtonListener()
+	{
+		pdfButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				BufferedImage image = new BufferedImage(drawArea.getWidth(), drawArea.getHeight(), BufferedImage.TYPE_INT_ARGB);
+				drawArea.paint(image.getGraphics());
+				try {
+					ImageIO.write(image, "PNG", new File(product.productName + ".png"));
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+	}
+
 	private void Initialize()
 	{
 		Month1Sales = new HashMap<>();
@@ -277,6 +311,9 @@ public class PredictionGUI extends JPanel
 
 		productBox = new JComboBox<String>(DatabaseIO.getProductByCategory((String)categoryBox.getSelectedItem()));
 		ProductBoxContentChangeListener();
+
+		pdfButton = new Button("Save as PDF");
+		PDFButtonListener();
 
 		product = DatabaseIO.getProduct((String)productBox.getSelectedItem());
 
