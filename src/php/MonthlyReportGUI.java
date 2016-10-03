@@ -32,6 +32,7 @@ public class MonthlyReportGUI extends JPanel
 	private ArrayList<HashMap<String, Integer>> mnRpt;
 	private JPanel buttonPanel;
 	private JButton btnSavePDF;
+	private JButton btnPrint;
 	
 	public MonthlyReportGUI()
 	{
@@ -59,6 +60,10 @@ public class MonthlyReportGUI extends JPanel
 		
 		btnSavePDF = new JButton("Save PDF");
 		buttonPanel.add(btnSavePDF);
+		
+		btnPrint = new JButton("Print");
+		buttonPanel.add(btnPrint);
+			
 		genButton.addActionListener(
 			new ActionListener()
 			{
@@ -113,6 +118,12 @@ public class MonthlyReportGUI extends JPanel
 				
 				
 				);
+		
+		btnPrint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//implement function
+			}
+		});
 		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
