@@ -4,13 +4,22 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.print.*;
+import java.io.*;
 import java.util.*;
 
 import javax.imageio.ImageIO;
+import javax.print.*;
+import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class PredictionGUI extends JPanel
 {
@@ -18,7 +27,7 @@ public class PredictionGUI extends JPanel
 	JComboBox<String> productBox;
 
 	Button pdfButton;
-
+	
 	JPanel drawArea;
 
 	Product product;
@@ -122,7 +131,7 @@ public class PredictionGUI extends JPanel
 		constraints.weightx = 0;
 		constraints.ipadx = 0;
 		add(pdfButton,constraints);
-
+		
 		constraints.fill = GridBagConstraints.BOTH;
 		constraints.gridx = 0;
 		constraints.gridy = 1;
@@ -307,7 +316,9 @@ public class PredictionGUI extends JPanel
 			}
 		});
 	}
-
+	
+	
+	
 	private void Initialize()
 	{
 		Month1Sales = new HashMap<>();
@@ -324,7 +335,7 @@ public class PredictionGUI extends JPanel
 
 		pdfButton = new Button("Save as PDF");
 		PDFButtonListener();
-
+		
 		product = DatabaseIO.getProduct((String)productBox.getSelectedItem());
 
 		drawArea = new DrawArea();
