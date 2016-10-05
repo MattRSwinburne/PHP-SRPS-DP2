@@ -29,6 +29,8 @@ public class ModifyProductGUI extends JPanel {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
+		JLabel modifyProductLabel = new JLabel("Modify a Product");
+
 		JLabel categoryLabel = new JLabel("Category");
 		JLabel productLabel = new JLabel("Product");
 		JLabel newCategoryLabel = new JLabel("New Category");
@@ -38,7 +40,7 @@ public class ModifyProductGUI extends JPanel {
 		JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
 
 		layout.setHorizontalGroup(
-				layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 				.addComponent(separator)
 				.addGroup(layout.createSequentialGroup()
 						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
@@ -47,7 +49,8 @@ public class ModifyProductGUI extends JPanel {
 								.addComponent(newCategoryLabel)
 								.addComponent(nameLabel)
 								.addComponent(descriptionLabel))
-						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+								.addComponent(modifyProductLabel)
 								.addComponent(categoryBox)
 								.addComponent(productBox)
 								.addComponent(newCategoryBox)
@@ -59,6 +62,7 @@ public class ModifyProductGUI extends JPanel {
 				);
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
+				.addComponent(modifyProductLabel)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 						.addComponent(categoryLabel)
 						.addComponent(categoryBox))

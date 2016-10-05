@@ -25,6 +25,8 @@ public class AddProductGUI extends JPanel {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
+		JLabel addProductLabel = new JLabel("Add a Product");
+
 		JLabel categoryLabel = new JLabel("Category");
 		JLabel nameLabel = new JLabel("Name");
 		JLabel descriptionLabel = new JLabel("Description");
@@ -37,7 +39,8 @@ public class AddProductGUI extends JPanel {
 						.addComponent(nameLabel)
 						.addComponent(descriptionLabel)
 						.addComponent(stockLabel))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+						.addComponent(addProductLabel)
 						.addComponent(category)
 						.addComponent(nameField)
 						.addComponent(descField)
@@ -49,6 +52,7 @@ public class AddProductGUI extends JPanel {
 
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
+				.addComponent(addProductLabel)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 						.addComponent(categoryLabel)
 						.addComponent(category))

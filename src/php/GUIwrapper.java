@@ -5,7 +5,6 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 
 public class GUIwrapper extends JPanel {
 	private final String loginLabel = "Login";
@@ -28,17 +27,10 @@ public class GUIwrapper extends JPanel {
 	private JTabbedPane TabbedPane() {
 		JTabbedPane tabbedPane = new JTabbedPane();
 
-		JPanel addSalesGUI = new AddSalesSideBar();
-
-		JPanel viewrecordsGUI = new ViewRecordsGUI();
-
-		JPanel reportsGUI = new JPanel();
-		ReportsGUI reports = new ReportsGUI();
-		reports.ReportsContent(reportsGUI);
-
-		tabbedPane.addTab("Add Sales", null, addSalesGUI, null);
-		tabbedPane.addTab("View Sales", null, viewrecordsGUI, null);
-		tabbedPane.addTab("Reports", null, reportsGUI, null);
+		tabbedPane.addTab("Add Sales", new AddSalesSideBar());
+		tabbedPane.addTab("View Sales", new ViewRecordsGUI());
+		tabbedPane.addTab("Reports", new ReportsGUI());
+		tabbedPane.addTab("Sales Prediction", new PredictionGUI());
 
 		return tabbedPane;
 	}

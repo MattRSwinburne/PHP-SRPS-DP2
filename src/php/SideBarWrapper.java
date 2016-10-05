@@ -13,17 +13,11 @@ public class SideBarWrapper extends JPanel
 
 	public SideBarWrapper()
 	{
-		Initialize();
-	}
-
-	protected void Initialize()
-	{
 		sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.PAGE_AXIS));
 		GenerateButtons();
 		setLayout(new BorderLayout());
 
 		add(Content(), BorderLayout.CENTER);
-		add(PageHeadings(), BorderLayout.NORTH);
 
 		for (Button button : sideButtons)
 		{
@@ -35,11 +29,6 @@ public class SideBarWrapper extends JPanel
 	protected void GenerateButtons() {}
 
 	protected JPanel Content()
-	{
-		return new JPanel();
-	}
-
-	protected JPanel PageHeadings()
 	{
 		return new JPanel();
 	}

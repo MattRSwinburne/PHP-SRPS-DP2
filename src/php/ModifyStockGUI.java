@@ -30,6 +30,8 @@ public class ModifyStockGUI extends JPanel {
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
+		JLabel modifyStockLabel = new JLabel("Modify Stock Levels");
+
 		JLabel categoryLabel = new JLabel("Category");
 		JLabel productLabel = new JLabel("Product");
 		JLabel quantityLabel = new JLabel("Quantity");
@@ -40,7 +42,8 @@ public class ModifyStockGUI extends JPanel {
 						.addComponent(categoryLabel)
 						.addComponent(productLabel)
 						.addComponent(quantityLabel))
-				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+						.addComponent(modifyStockLabel)
 						.addComponent(category)
 						.addComponent(productBox)
 						.addComponent(quantity)
@@ -50,6 +53,7 @@ public class ModifyStockGUI extends JPanel {
 				);
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
+				.addComponent(modifyStockLabel)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
 						.addComponent(categoryLabel)
 						.addComponent(category))
