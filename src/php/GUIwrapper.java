@@ -29,6 +29,7 @@ public class GUIwrapper extends JPanel {
 
 		tabbedPane.addTab("Add Sales", new AddSalesSideBar());
 		tabbedPane.addTab("View Sales", new ViewRecordsGUI());
+		tabbedPane.addTab("Product Stock", new ViewProductLevelsGUI());
 		tabbedPane.addTab("Reports", new ReportsGUI());
 		tabbedPane.addTab("Sales Prediction", new PredictionGUI());
 
