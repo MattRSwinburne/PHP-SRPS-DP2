@@ -61,7 +61,7 @@ public class PDFOperations {
 				pdfTable.addCell(table.getColumnName(i));
 			}
 			//extracting data from the JTable and inserting it to PdfPTable
-			for (int rows = 0; rows < table.getRowCount() - 1; rows++) {
+			for (int rows = 0; rows < table.getRowCount(); rows++) {
 				for (int cols = 0; cols < table.getColumnCount(); cols++) {
 					pdfTable.addCell(table.getModel().getValueAt(rows, cols).toString());
 
@@ -97,7 +97,7 @@ public class PDFOperations {
 				pdfTable.addCell(table.getColumnName(i));
 			}
 			//extracting data from the JTable and inserting it to PdfPTable
-			for (int rows = 0; rows < table.getRowCount() - 1; rows++) {
+			for (int rows = 0; rows < table.getRowCount(); rows++) {
 				for (int cols = 0; cols < table.getColumnCount(); cols++) {
 					pdfTable.addCell(table.getModel().getValueAt(rows, cols).toString());
 
