@@ -48,7 +48,7 @@ public class ViewProductLevelsGUI extends JPanel {
 
 	private void ProductContentChangeListener()
 	{
-		table.addFocusListener(new FocusListener()
+		addFocusListener(new FocusListener()
 		{
 			public void focusGained(FocusEvent arg0)
 			{

@@ -180,6 +180,7 @@ public class DatabaseIO {
 	//gets the products from the database, and populates the DatabaseIO.productList arraylist with product objects
 	public static void getProducts(){
 
+		productList.clear();
 		Connection con = connect();
 		Statement stmt = null;
 		String query = "select *" + "from SYSTEM.PRODUCT";
